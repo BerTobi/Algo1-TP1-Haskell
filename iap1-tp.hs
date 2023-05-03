@@ -75,6 +75,8 @@ tieneUnSeguidorFiel = undefined
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
 existeSecuenciaDeAmigos = undefined
 
+pertenece :: t -> [t] -> Bool
+pertenece = True
 
 
 mismosElementos :: Int -> Int -> Bool
