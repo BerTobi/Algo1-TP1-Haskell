@@ -74,3 +74,9 @@ tieneUnSeguidorFiel = undefined
 -- describir qué hace la función: .....
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
 existeSecuenciaDeAmigos = undefined
+
+
+
+mismosElementos :: Int -> Int -> Bool
+mismosElementos a b | a == b = True
+                    | otherwise = False
