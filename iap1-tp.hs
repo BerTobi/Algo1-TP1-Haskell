@@ -84,9 +84,33 @@ existeSecuenciaDeAmigos = undefined
 pertenece :: (Eq t) => t -> [t] -> Bool
 pertenece a (x:xs) | length (x:xs) == 1 && a == x = True
                    | length (x:xs) == 1 && a /= x = False
-                   | otherwise = pertenece a xs
+                   | otherwise = a == x || pertenece a xs
+
+
+
+usuarioValido :: Usuario -> Bool
+usuarioValido a | idDeUsuario a > 0 && length (nombreDeUsuario a) > 0 = True
+                | otherwise = False
+
+--noHayIdsRepetidos :: [Usuario] -> Bool
+--noHayIdsRepetidos 
+
+
+hayRepetidos :: (Eq t) => [t] -> Bool
+hayRepetidos (x:xs) | length (x:xs) == 1 = False
+                    | pertenece x xs = True
+                    | otherwise = hayRepetidos xs
+
 
 
 mismosElementos :: Int -> Int -> Bool
 mismosElementos a b | a == b = True
                     | otherwise = False
+
+
+
+
+
+--SANDBOX
+
+usuario1 = (1, "Juan")
