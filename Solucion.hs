@@ -6,6 +6,8 @@
 -- Integrante 3: Miguel David Avendaño Padilla, mdavendano1612@gmail.com, 775/23
 -- Integrante 4: Gonzalo Agustín Heredia, gonzalo.heredia.gh8@gmail.com, 948/23
 
+module Solucion where
+
 type Usuario = (Integer, String) -- (id, nombre)
 type Relacion = (Usuario, Usuario) -- usuarios que se relacionan
 type Publicacion = (Usuario, String, [Usuario]) -- (usuario que publica, texto publicacion, likes)
