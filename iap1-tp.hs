@@ -75,8 +75,16 @@ tieneUnSeguidorFiel = undefined
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
 existeSecuenciaDeAmigos = undefined
 
-pertenece :: t -> [t] -> Bool
-pertenece = True
+
+
+
+
+--PREDICADOS Y FUNCIONES AUXILIARES
+
+pertenece :: (Eq t) => t -> [t] -> Bool
+pertenece a (x:xs) | length (x:xs) == 1 && a == x = True
+                   | length (x:xs) == 1 && a /= x = False
+                   | otherwise = pertenece a xs
 
 
 mismosElementos :: Int -> Int -> Bool
