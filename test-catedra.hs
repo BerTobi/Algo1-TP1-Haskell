@@ -1,5 +1,5 @@
 import Test.HUnit
-import RedSocial
+import Solucion
 
 main = runTestTT tests
 
