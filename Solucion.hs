@@ -95,8 +95,37 @@ mismosElementos xs ys | xs == [] && ys == [] = True
                       | pertenece (head xs) ys == False = False
                       | pertenece (head xs) ys == True = mismosElementos (quitarTodos (head xs) xs) (quitarTodos (head xs) ys)
 
+
+usuarioValido :: Usuario -> Bool
+usuarioValido a | idDeUsuario a > 0 && length (nombreDeUsuario a) > 0 = True
+                | otherwise = False
+
+
+
+
+mismosElementos :: (Eq t) => [t] -> [t] -> Bool
+mismosElementos xs ys | xs == [] && ys == [] = True
+                      | xs == [] && ys /= [] = False
+                      | xs /= [] && ys == [] = False
+                      | pertenece (head xs) ys == False = False
+                      | pertenece (head xs) ys == True = mismosElementos (quitarTodos (head xs) xs) (quitarTodos (head xs) ys)
+
 --Sirve para mismosElementos
 quitarTodos :: (Eq t) => t -> [t] -> [t] 
 quitarTodos x xs | xs == [] = []
                  | x == head xs = quitarTodos x (tail xs)
                  | otherwise = [head xs] ++ quitarTodos x (tail xs)
+
+--noHayIdsRepetidos :: [Usuario] -> Bool
+--noHayIdsRepetidos 
+
+hayRepetidos :: (Eq t) => [t] -> Bool
+hayRepetidos (x:xs) | length (x:xs) == 1 = False
+                    | pertenece x xs = True
+                    | otherwise = hayRepetidos xs
+
+
+
+--SANDBOX
+
+usuario1 = (1, "Juan")
