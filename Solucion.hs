@@ -84,11 +84,19 @@ existeSecuenciaDeAmigos = undefined
 --PREDICADOS Y FUNCIONES AUXILIARES
 
 pertenece :: (Eq t) => t -> [t] -> Bool
-pertenece a (x:xs) | length (x:xs) == 1 && a == x = True
-                   | length (x:xs) == 1 && a /= x = False
+pertenece a (x:xs) | (x:xs) == [] = False
+                   | a == x = True
                    | otherwise = pertenece a xs
 
+mismosElementos :: (Eq t) => [t] -> [t] -> Bool
+mismosElementos xs ys | xs == [] && ys == [] = True
+                      | xs == [] && ys /= [] = False
+                      | xs /= [] && ys == [] = False
+                      | pertenece (head xs) ys == False = False
+                      | pertenece (head xs) ys == True = mismosElementos (quitarTodos (head xs) xs) (quitarTodos (head xs) ys)
 
-mismosElementos :: Int -> Int -> Bool
-mismosElementos a b | a == b = True
-                    | otherwise = False
+--Sirve para mismosElementos
+quitarTodos :: (Eq t) => t -> [t] -> [t] 
+quitarTodos x xs | xs == [] = []
+                 | x == head xs = quitarTodos x (tail xs)
+                 | otherwise = [head xs] ++ quitarTodos x (tail xs)
