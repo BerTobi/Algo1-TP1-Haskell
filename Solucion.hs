@@ -84,11 +84,9 @@ existeSecuenciaDeAmigos = undefined
 --PREDICADOS Y FUNCIONES AUXILIARES
 
 pertenece :: (Eq t) => t -> [t] -> Bool
-pertenece a (x:xs) | (x:xs) == [] = False
-                   | length (x:xs) == 1 && a == x = True
-                   | length (x:xs) == 1 && a /= x = False
-                   | a == x = True
-                   | otherwise = pertenece a xs
+pertenece a xs | length xs == 0 = False
+               | a == (head xs) = True
+               | otherwise = pertenece a (tail xs)
 
 
 mismosElementos :: (Eq t) => [t] -> [t] -> Bool
@@ -113,14 +111,17 @@ usuarioValido a | idDeUsuario a > 0 && length (nombreDeUsuario a) > 0 = True
 
 
 noHayIdsRepetidos :: [Usuario] -> Bool
+noHayIdsRepetidos [] = True
 noHayIdsRepetidos (x:xs) | length listaDeIds == 1 = True
                          | pertenece (head listaDeIds) (tail listaDeIds) = False 
                          | otherwise = noHayIdsRepetidos xs
                     where
                         listaDeIds = construccionListaIds (x:xs)
 
+
 --Me hago una sola lista con las ids para noHayIdsRepetidos
 construccionListaIds :: [Usuario] -> [Integer]
+construccionListaIds [] = []
 construccionListaIds (x:xs) | length (x:xs) == 1 = [fst x]
                             | otherwise = [fst x] ++ construccionListaIds xs
 
