@@ -85,8 +85,11 @@ existeSecuenciaDeAmigos = undefined
 
 pertenece :: (Eq t) => t -> [t] -> Bool
 pertenece a (x:xs) | (x:xs) == [] = False
+                   | length (x:xs) == 1 && a == x = True
+                   | length (x:xs) == 1 && a /= x = False
                    | a == x = True
                    | otherwise = pertenece a xs
+
 
 mismosElementos :: (Eq t) => [t] -> [t] -> Bool
 mismosElementos xs ys | xs == [] && ys == [] = True
@@ -101,20 +104,47 @@ quitarTodos x xs | xs == [] = []
                  | x == head xs = quitarTodos x (tail xs)
                  | otherwise = [head xs] ++ quitarTodos x (tail xs)
 
+
+
 usuarioValido :: Usuario -> Bool
 usuarioValido a | idDeUsuario a > 0 && length (nombreDeUsuario a) > 0 = True
                 | otherwise = False
 
---noHayIdsRepetidos :: [Usuario] -> Bool
---noHayIdsRepetidos 
 
-hayRepetidos :: (Eq t) => [t] -> Bool
-hayRepetidos (x:xs) | length (x:xs) == 1 = False
-                    | pertenece x xs = True
-                    | otherwise = hayRepetidos xs
+
+noHayIdsRepetidos :: [Usuario] -> Bool
+noHayIdsRepetidos (x:xs) | length listaDeIds == 1 = True
+                         | pertenece (head listaDeIds) (tail listaDeIds) = False 
+                         | otherwise = noHayIdsRepetidos xs
+                    where
+                        listaDeIds = construccionListaIds (x:xs)
+
+--Me hago una sola lista con las ids para noHayIdsRepetidos
+construccionListaIds :: [Usuario] -> [Integer]
+construccionListaIds (x:xs) | length (x:xs) == 1 = [fst x]
+                            | otherwise = [fst x] ++ construccionListaIds xs
+
+
+
+
+usuariosValidos :: [Usuario] -> Bool
+usuariosValidos (x:xs) | length (x:xs) == 1 && usuarioValido (head (x:xs)) = True
+                       | otherwise = usuarioValido x && noHayIdsRepetidos (x:xs) && usuariosValidos xs
+
 
 
 
 --SANDBOX
 
+--Para que sea mas facil probar
 usuario1 = (1, "Juan")
+usuario2 = (5, "Roberto")
+usuario3 = (4, "")
+usuario4 = (6, "Roberto")
+
+
+--Actualmente no funciona en ninguna función, pero como hay otros de no repetidos quiza ustedes le encuentren alguna utilidad.
+noHayRepetidos :: (Eq t) => [t] -> Bool
+noHayRepetidos (x:xs) | length (x:xs) == 1 = True
+                      | pertenece x xs = False
+                      | otherwise = noHayRepetidos xs
