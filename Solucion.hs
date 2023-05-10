@@ -83,6 +83,9 @@ existeSecuenciaDeAmigos = undefined
 
 --PREDICADOS Y FUNCIONES AUXILIARES
 
+
+--PREDICADOS BASICOS INDEPENDIENTES
+
 pertenece :: (Eq t) => t -> [t] -> Bool
 pertenece a xs | length xs == 0 = False
                | a == (head xs) = True
@@ -126,11 +129,23 @@ construccionListaIds (x:xs) | length (x:xs) == 1 = [fst x]
                             | otherwise = [fst x] ++ construccionListaIds xs
 
 
+relacionadosDirecto :: Usuario -> Usuario -> RedSocial -> Bool
+relacionadosDirecto usA usB red | pertenece (usA, usB) (relaciones red) || pertenece (usB, usA) (relaciones red) = True
+                                | otherwise = False
 
+
+-- PREDICADOS DEPENDIENTES A BASICOS
 
 usuariosValidos :: [Usuario] -> Bool
 usuariosValidos (x:xs) | length (x:xs) == 1 && usuarioValido (head (x:xs)) = True
                        | otherwise = usuarioValido x && noHayIdsRepetidos (x:xs) && usuariosValidos xs
+
+
+cadenaDeAmigos :: [Usuario] -> RedSocial -> Bool
+cadenaDeAmigos [] red = False
+cadenaDeAmigos (x:xs) red | length (x:xs) == 1 = False
+                          | relacionadosDirecto x (head xs) red || cadenaDeAmigos xs red = True
+                          | otherwise = cadenaDeAmigos xs red
 
 
 
@@ -142,6 +157,14 @@ usuario1 = (1, "Juan")
 usuario2 = (5, "Roberto")
 usuario3 = (4, "")
 usuario4 = (6, "Roberto")
+
+relacion1 = (usuario1, usuario2)
+relacion2 = (usuario1, usuario1)
+
+publicacion1 = (usuario1, "Este es mi primer post", [usuario2, usuario4])
+
+
+redSocialA = ([usuario1, usuario2, usuario3, usuario4], [relacion1, relacion2], [publicacion1])
 
 
 --Actualmente no funciona en ninguna función, pero como hay otros de no repetidos quiza ustedes le encuentren alguna utilidad.
