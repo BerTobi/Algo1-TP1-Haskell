@@ -77,42 +77,37 @@ tieneUnSeguidorFiel = undefined
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
 existeSecuenciaDeAmigos = undefined
 
-
-
-
-
 --PREDICADOS Y FUNCIONES AUXILIARES
 
 
 --PREDICADOS BASICOS INDEPENDIENTES
 
+--I)
 pertenece :: (Eq t) => t -> [t] -> Bool
 pertenece a xs | length xs == 0 = False
                | a == (head xs) = True
                | otherwise = pertenece a (tail xs)
 
-
+--II)
 mismosElementos :: (Eq t) => [t] -> [t] -> Bool
 mismosElementos xs ys | xs == [] && ys == [] = True
                       | xs == [] && ys /= [] = False
                       | xs /= [] && ys == [] = False
                       | pertenece (head xs) ys == False = False
                       | pertenece (head xs) ys == True = mismosElementos (quitarTodos (head xs) xs) (quitarTodos (head xs) ys)
-
---Sirve para mismosElementos
+                      
+--II) aux
 quitarTodos :: (Eq t) => t -> [t] -> [t] 
 quitarTodos x xs | xs == [] = []
                  | x == head xs = quitarTodos x (tail xs)
                  | otherwise = [head xs] ++ quitarTodos x (tail xs)
-
-
-
+                 
+--1)
 usuarioValido :: Usuario -> Bool
 usuarioValido a | idDeUsuario a > 0 && length (nombreDeUsuario a) > 0 = True
                 | otherwise = False
-
-
-
+                
+--2)
 noHayIdsRepetidos :: [Usuario] -> Bool
 noHayIdsRepetidos [] = True
 noHayIdsRepetidos (x:xs) | length listaDeIds == 1 = True
@@ -120,27 +115,60 @@ noHayIdsRepetidos (x:xs) | length listaDeIds == 1 = True
                          | otherwise = noHayIdsRepetidos xs
                     where
                         listaDeIds = construccionListaIds (x:xs)
-
-
+--2) Aux
 --Me hago una sola lista con las ids para noHayIdsRepetidos
 construccionListaIds :: [Usuario] -> [Integer]
 construccionListaIds [] = []
 construccionListaIds (x:xs) | length (x:xs) == 1 = [fst x]
                             | otherwise = [fst x] ++ construccionListaIds xs
+--6)
+--Sirve para e)
+usuariosLikeValidos :: [Usuario] -> [Usuario] -> Bool
+usuariosLikeValidos us [] = True
+usuariosLikeValidos us usl | pertenece (head usl) us = usuariosLikeValidos us (tail usl)
+                           | not(pertenece (head usl) us) = False
 
-
+--7)
 relacionadosDirecto :: Usuario -> Usuario -> RedSocial -> Bool
 relacionadosDirecto usA usB red | pertenece (usA, usB) (relaciones red) || pertenece (usB, usA) (relaciones red) = True
                                 | otherwise = False
 
+--8)
+usuariosDePublicacionSonUsuariosDeRed :: [Usuario] -> [Publicacion] -> Bool
+usuariosDePublicacionSonUsuariosDeRed us [] = True
+usuariosDePublicacionSonUsuariosDeRed us pubs | pertenece (usuarioDePublicacion (head pubs)) us = usuariosDePublicacionSonUsuariosDeRed us (tail pubs)
+                                              | not(pertenece (usuarioDePublicacion (head pubs)) us) = False
+
+--9)
+noHayPublicacionesRepetidas :: [Publicacion] -> Bool
+noHayPublicacionesRepetidas pubs | hayRepetidos pubs = False
+                                 | otherwise = True
+--9) Aux                                 
+--Sirve para noHayPublicacionesRepetidas
+hayRepetidos :: (Eq t) => [t] -> Bool
+hayRepetidos (x:xs) | length (x:xs) == 1 = False
+                    | pertenece x xs = True
+                    | otherwise = hayRepetidos xs
 
 -- PREDICADOS DEPENDIENTES A BASICOS
 
+--b)
 usuariosValidos :: [Usuario] -> Bool
 usuariosValidos (x:xs) | length (x:xs) == 1 && usuarioValido (head (x:xs)) = True
                        | otherwise = usuarioValido x && noHayIdsRepetidos (x:xs) && usuariosValidos xs
 
+--d)
+publicacionesValidas :: [Usuario] -> [Publicacion] -> Bool
+publicacionesValidas us pubs | usuariosDePublicacionSonUsuariosDeRed us pubs && usuariosDeLikeDePublicacionSonUsuariosDeRed us pubs && noHayPublicacionesRepetidas pubs = True
+                             | otherwise = False            
 
+--e)
+usuariosDeLikeDePublicacionSonUsuariosDeRed :: [Usuario] -> [Publicacion] -> Bool
+usuariosDeLikeDePublicacionSonUsuariosDeRed us [] = True
+usuariosDeLikeDePublicacionSonUsuariosDeRed us pubs | usuariosLikeValidos us (likesDePublicacion (head pubs)) = usuariosDeLikeDePublicacionSonUsuariosDeRed us (tail pubs)
+                                                    | not(usuariosLikeValidos us (likesDePublicacion (head pubs))) = False
+
+--f)
 cadenaDeAmigos :: [Usuario] -> RedSocial -> Bool
 cadenaDeAmigos [] red = False
 cadenaDeAmigos (x:xs) red | length (x:xs) == 1 = False
@@ -148,27 +176,20 @@ cadenaDeAmigos (x:xs) red | length (x:xs) == 1 = False
                           | otherwise = cadenaDeAmigos xs red
 
 
-
-
 --SANDBOX
-
 --Para que sea mas facil probar
+
+--Usuarios
 usuario1 = (1, "Juan")
 usuario2 = (5, "Roberto")
 usuario3 = (4, "")
 usuario4 = (6, "Roberto")
 
+--Publicaciones
+publicacion1 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
+publicacion2 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
+
 relacion1 = (usuario1, usuario2)
 relacion2 = (usuario1, usuario1)
 
-publicacion1 = (usuario1, "Este es mi primer post", [usuario2, usuario4])
-
-
 redSocialA = ([usuario1, usuario2, usuario3, usuario4], [relacion1, relacion2], [publicacion1])
-
-
---Actualmente no funciona en ninguna función, pero como hay otros de no repetidos quiza ustedes le encuentren alguna utilidad.
-noHayRepetidos :: (Eq t) => [t] -> Bool
-noHayRepetidos (x:xs) | length (x:xs) == 1 = True
-                      | pertenece x xs = False
-                      | otherwise = noHayRepetidos xs
