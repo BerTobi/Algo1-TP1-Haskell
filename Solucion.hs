@@ -137,6 +137,10 @@ usuariosDeLikeDePublicacionSonUsuariosDeRed us [] = True
 usuariosDeLikeDePublicacionSonUsuariosDeRed us pubs | usuariosLikeValidos us (likesDePublicacion (head pubs)) = usuariosDeLikeDePublicacionSonUsuariosDeRed us (tail pubs)
                                                     | not(usuariosLikeValidos us (likesDePublicacion (head pubs))) = False
 
+publicacionesValidas :: [Usuario] -> [Publicacion] -> Bool
+publicacionesValidas us pubs | usuariosDePublicacionSonUsuariosDeRed us pubs && usuariosDeLikeDePublicacionSonUsuariosDeRed us pubs && noHayPublicacionesRepetidas pubs = True
+                             | otherwise = False
+
 
 --SANDBOX
 
