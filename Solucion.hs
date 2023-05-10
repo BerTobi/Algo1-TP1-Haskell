@@ -83,10 +83,13 @@ existeSecuenciaDeAmigos = undefined
 
 --PREDICADOS Y FUNCIONES AUXILIARES
 
+
+--PREDICADOS BASICOS INDEPENDIENTES
+
 pertenece :: (Eq t) => t -> [t] -> Bool
-pertenece a (x:xs) | (x:xs) == [] = False
-                   | a == x = True
-                   | otherwise = pertenece a xs
+pertenece a xs | xs == [] = False
+               | a == head xs = True
+               | otherwise = pertenece a (tail xs)
 
 mismosElementos :: (Eq t) => [t] -> [t] -> Bool
 mismosElementos xs ys | xs == [] && ys == [] = True
@@ -105,16 +108,35 @@ usuarioValido :: Usuario -> Bool
 usuarioValido a | idDeUsuario a > 0 && length (nombreDeUsuario a) > 0 = True
                 | otherwise = False
 
---noHayIdsRepetidos :: [Usuario] -> Bool
---noHayIdsRepetidos 
-
 hayRepetidos :: (Eq t) => [t] -> Bool
 hayRepetidos (x:xs) | length (x:xs) == 1 = False
                     | pertenece x xs = True
                     | otherwise = hayRepetidos xs
 
+--sirve para usuariosDeLikeDePublicacionSonUsuariosDeRed
+usuariosLikeValidos :: [Usuario] -> [Usuario] -> Bool
+usuariosLikeValidos us [] = True
+usuariosLikeValidos us usl | pertenece (head usl) us = usuariosLikeValidos us (tail usl)
+                           | not(pertenece (head usl) us) = False
+
+
+--PREDICADOS DEPENDIENTES A BASICOS
+
+usuariosDeLikeDePublicacionSonUsuariosDeRed :: [Usuario] -> [Publicacion] -> Bool
+usuariosDeLikeDePublicacionSonUsuariosDeRed us [] = True
+usuariosDeLikeDePublicacionSonUsuariosDeRed us pubs | usuariosLikeValidos us (likesDePublicacion (head pubs)) = usuariosDeLikeDePublicacionSonUsuariosDeRed us (tail pubs)
+                                                    | not(usuariosLikeValidos us (likesDePublicacion (head pubs))) = False
 
 
 --SANDBOX
 
+--Usuarios
 usuario1 = (1, "Juan")
+usuario2 = (5, "Roberto")
+usuario3 = (4, "Gabriel")
+usuario4 = (6, "Roberto")
+usuario5 = (7, "Bastian")
+
+--Publicaciones
+publicacion1 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
+publicacion2 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
