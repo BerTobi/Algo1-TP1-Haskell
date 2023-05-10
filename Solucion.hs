@@ -178,7 +178,7 @@ cadenaDeAmigos (x:xs) red | length (x:xs) == 1 = False
 
 --SANDBOX
 --Para que sea mas facil probar
-
+{-
 --Usuarios
 usuario1 = (1, "Juan")
 usuario2 = (5, "Roberto")
@@ -193,3 +193,4 @@ relacion1 = (usuario1, usuario2)
 relacion2 = (usuario1, usuario1)
 
 redSocialA = ([usuario1, usuario2, usuario3, usuario4], [relacion1, relacion2], [publicacion1])
+-}
