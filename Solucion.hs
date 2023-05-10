@@ -113,6 +113,12 @@ hayRepetidos (x:xs) | length (x:xs) == 1 = False
                     | pertenece x xs = True
                     | otherwise = hayRepetidos xs
 
+--sirve para usuariosDePublicacionSonUsuariosDeRed
+usuariosDePublicacionSonUsuariosDeRed :: [Usuario] -> [Publicacion] -> Bool
+usuariosDePublicacionSonUsuariosDeRed us [] = True
+usuariosDePublicacionSonUsuariosDeRed us pubs | pertenece (usuarioDePublicacion (head pubs)) us = usuariosDePublicacionSonUsuariosDeRed us (tail pubs)
+                                              | not(pertenece (usuarioDePublicacion (head pubs)) us) = False
+
 --sirve para usuariosDeLikeDePublicacionSonUsuariosDeRed
 usuariosLikeValidos :: [Usuario] -> [Usuario] -> Bool
 usuariosLikeValidos us [] = True
@@ -140,3 +146,4 @@ usuario5 = (7, "Bastian")
 --Publicaciones
 publicacion1 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
 publicacion2 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
+publicacion5 = (usuario10, "No existo", [])
