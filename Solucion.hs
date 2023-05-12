@@ -164,6 +164,9 @@ relacionSimetrica :: Relacion -> [Relacion] -> Bool
 relacionSimetrica rel rels | pertenece ((snd rel), (fst rel)) rels = True
                            | otherwise = False
 
+--5)
+
+
 --6)
 --Sirve para e)
 usuariosLikeValidos :: [Usuario] -> [Usuario] -> Bool
