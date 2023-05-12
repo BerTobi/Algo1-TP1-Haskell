@@ -1,18 +1,46 @@
 import Test.HUnit
 import Solucion
 
-main = runTestTT basicosIndependientes >> runTestTT dependientesDeBasicos 
+predicados = runTestTT basicosIndependientes >> runTestTT dependientesDeBasicos 
 
 basicosIndependientes = test [
     " siPertenece " ~: (pertenece siPerteneceElem siPerteneceLista) ~?= True,
 
     " noPertenece " ~: (pertenece noPerteneceElem noPerteneceLista) ~?= False,
 
-    " Pertenece (lista vacia)" ~: (pertenece 1 listaVacia) ~?= False
+    " Pertenece (lista vacia)" ~: (pertenece 1 listaVacia) ~?= False,
+
+    " EmpiezaCon 1 " ~: (empiezaCon empiezaCon1elem empiezaCon1lista) ~?= True,
+
+    " EmpiezaCon 2 " ~: (empiezaCon empiezaCon2elem empiezaCon2lista) ~?= False,
+
+    " EmpiezaCon 3 " ~: (empiezaCon empiezaCon3elem empiezaCon3lista) ~?= False,
+
+    " TerminaCon 1 " ~: (terminaCon terminaCon1elem terminaCon1lista) ~?= True,
+
+    " TerminaCon 2 " ~: (terminaCon terminaCon2elem terminaCon2lista) ~?= False,
+
+    " TerminaCon 3 " ~: (terminaCon terminaCon3elem terminaCon3lista) ~?= False,
+
+    " UsuariosDeRelacionValidos 1 " ~: (usuariosDeRelacionValidos usuarios4 relaciones1) ~?= True,
+
+    " UsuariosDeRelacionValidos 2 " ~: (usuariosDeRelacionValidos usuarios4 relaciones2) ~?= False,
+
+    " UsuariosDeRelacionValidos 3 " ~: (usuariosDeRelacionValidos usuarios1 relaciones1) ~?= False,
+
+    " RelacionesAsimetricas 1 " ~: (relacionesAsimetricas relaciones1) ~?= True,
+
+    " RelacionesAsimetricas 2 " ~: (relacionesAsimetricas relaciones3) ~?= False,
+
+    " RelacionesAsimetricas 3 " ~: (relacionesAsimetricas relaciones4) ~?= False
  ]
 
 dependientesDeBasicos = test [
-    " usuariosValidos " ~: (usuariosValidos usuarios1) ~?= False
+    " usuariosValidos 1" ~: (usuariosValidos usuarios1) ~?= True,
+
+    " usuariosValidos 2" ~: (usuariosValidos usuarios2) ~?= False,
+
+    " usuariosValidos 3" ~: (usuariosValidos usuarios3) ~?= False
  ]
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
@@ -26,8 +54,52 @@ noPerteneceElem = 'b'
 noPerteneceLista = ['z', 'c', 'd', 'a', 'e']
 listaVacia = []
 
--- UsuariosValidos
+-- EmpiezaCon
+empiezaCon1elem = 1
+empiezaCon1lista = [1, 2, 3, 4]
+empiezaCon2elem = 'a'
+empiezaCon2lista = ['b', 'a', 'c', 'd']
+empiezaCon3elem = 2
+empiezaCon3lista = []
+
+-- EmpiezaCon
+terminaCon1elem = 1
+terminaCon1lista = [4, 2, 3, 1]
+terminaCon2elem = 'a'
+terminaCon2lista = ['b', 'a', 'c', 'd']
+terminaCon3elem = 2
+terminaCon3lista = []
+
+-- Usuarios Validos
 usuario1 = (1, "Juan")
-usuario2 = (0, "Pedro")
+usuario2 = (2, "Natalia")
+usuario3 = (3, "Pedro")
+usuario4 = (4, "Mariela")
+usuario5 = (5, "Natalia")
+
+-- Usuarios Invalidos
+usuarioInvalido1 = (0, "Juan")
+usuarioInvalido2 = (2, "")
+
+-- Listas de usuarios
 
 usuarios1 = [usuario1, usuario2]
+usuarios2 = [usuario3, usuario2, usuarioInvalido2]
+usuarios3 = [usuario1, usuario5, usuario1]
+usuarios4 = [usuario1, usuario2, usuario3, usuario4]
+
+-- Relaciones validas
+
+relacion1 = (usuario1, usuario2)
+relacion2 = (usuario4, usuario3)
+relacion3 = (usuario2, usuario1)
+relacion4 = (usuario3, usuario4)
+
+-- Relaciones invalidas
+
+relacionInvalida1 = (usuario1, usuario1)
+
+relaciones1 = [relacion1, relacion2]
+relaciones2 = [relacion1, relacionInvalida1, relacion2]
+relaciones3 = [relacion1, relacion2, relacion3, relacion4]
+relaciones4 = [relacion1, relacion3, relacion2]

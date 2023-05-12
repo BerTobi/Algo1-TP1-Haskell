@@ -101,6 +101,25 @@ quitarTodos :: (Eq t) => t -> [t] -> [t]
 quitarTodos x xs | xs == [] = []
                  | x == head xs = quitarTodos x (tail xs)
                  | otherwise = [head xs] ++ quitarTodos x (tail xs)
+
+--III)
+empiezaCon :: (Eq t) => t -> [t] -> Bool
+empiezaCon x xs | xs == [] = False
+                | x == head xs = True
+                | otherwise = False
+
+--IV)
+terminaCon :: (Eq t) => t -> [t] -> Bool
+terminaCon x xs | xs == [] = False
+                | length xs == 1 && x == head xs = True
+                | length xs == 1 && x /= head xs = False
+                | otherwise = terminaCon x (tail xs)
+
+--V)
+sinRepetidos :: (Eq t) => [t] -> Bool
+sinRepetidos (x:xs) | length (x:xs) == 1 = True
+                    | pertenece x xs = False
+                    | otherwise = sinRepetidos xs
                  
 --1)
 usuarioValido :: Usuario -> Bool
@@ -121,6 +140,30 @@ construccionListaIds :: [Usuario] -> [Integer]
 construccionListaIds [] = []
 construccionListaIds (x:xs) | length (x:xs) == 1 = [fst x]
                             | otherwise = [fst x] ++ construccionListaIds xs
+
+--3)
+usuariosDeRelacionValidos :: [Usuario] -> [Relacion] -> Bool
+usuariosDeRelacionValidos us rels | length rels == 0 = True
+                                  | length rels > 0 && validezDeRelacionCheck us (head rels) == True = usuariosDeRelacionValidos us (tail rels)
+                                  | otherwise = False
+
+--3) Aux
+validezDeRelacionCheck :: [Usuario] -> Relacion -> Bool
+validezDeRelacionCheck us rel | fst rel == snd rel = False
+                              | pertenece (fst rel) us && pertenece (snd rel) us = True
+                              | otherwise = False
+
+--4)
+relacionesAsimetricas :: [Relacion] -> Bool
+relacionesAsimetricas rels | length rels == 0 = True
+                           | relacionSimetrica (head rels) (tail rels) == True = False
+                           | otherwise = relacionesAsimetricas (tail rels)
+                    
+--4) Aux
+relacionSimetrica :: Relacion -> [Relacion] -> Bool
+relacionSimetrica rel rels | pertenece ((snd rel), (fst rel)) rels = True
+                           | otherwise = False
+
 --6)
 --Sirve para e)
 usuariosLikeValidos :: [Usuario] -> [Usuario] -> Bool
@@ -175,6 +218,12 @@ cadenaDeAmigos (x:xs) red | length (x:xs) == 1 = False
                           | relacionadosDirecto x (head xs) red || cadenaDeAmigos xs red = True
                           | otherwise = cadenaDeAmigos xs red
 
+-- Funciones Auxiliares
+
+quitar :: (Eq t) => t -> [t] -> [t]
+quitar x xs | xs == [] = []
+            | x == head xs = tail xs
+            | otherwise = [head xs] ++ quitar x (tail xs)
 
 --SANDBOX
 --Para que sea mas facil probar
