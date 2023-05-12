@@ -164,7 +164,7 @@ relacionSimetrica :: Relacion -> [Relacion] -> Bool
 relacionSimetrica rel rels | pertenece ((snd rel), (fst rel)) rels = True
                            | otherwise = False
 
---5)
+--5) Planeo hacer algo
 
 
 --6)
