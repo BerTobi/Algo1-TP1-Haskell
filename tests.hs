@@ -62,7 +62,7 @@ dependientesDeBasicos = test [
 
     " usuariosValidos 3" ~: (usuariosValidos usuarios3) ~?= False,
 
-    " cadenaDeAmigos 1" ~: (cadenaDeAmigos usuarios4 redSocialA) ~?= True,
+    " cadenaDeAmigos 1" ~: (cadenaDeAmigos usuarios4 redSocialC) ~?= True,
 
     " cadenaDeAmigos 2" ~: (cadenaDeAmigos usuarios5 redSocialB) ~?= False,
 
@@ -124,6 +124,7 @@ relacion2 = (usuario4, usuario3)
 relacion3 = (usuario2, usuario1)
 relacion4 = (usuario3, usuario4)
 relacion5 = (usuario1, usuario5)
+relacion6 = (usuario2, usuario3)
 
 -- Relaciones invalidas
 
@@ -135,6 +136,7 @@ relaciones3 = [relacion1, relacion2, relacion3, relacion4]
 relaciones4 = [relacion1, relacion3, relacion2]
 
 relaciones5 = [relacion5, relacion3]
+relaciones6 = [relacion1, relacion6, relacion2, relacion5]
 
 --Publicaciones
 publicacion1 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
@@ -144,4 +146,6 @@ publicacion2 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
 
 redSocialA = (usuarios4, relaciones1, [publicacion1])
 
-redSocialB = (usuarios5 ,relaciones5, [publicacion1])
+redSocialB = (usuarios5, relaciones5, [publicacion1])
+
+redSocialC = (usuarios5, relaciones6, [publicacion1])
