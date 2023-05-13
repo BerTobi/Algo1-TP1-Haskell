@@ -164,8 +164,16 @@ relacionSimetrica :: Relacion -> [Relacion] -> Bool
 relacionSimetrica rel rels | pertenece ((snd rel), (fst rel)) rels = True
                            | otherwise = False
 
---5) Planeo hacer algo
-
+--5)
+noHayRelacionesRepetidas :: [Relacion] -> Bool
+noHayRelacionesRepetidas rels | length rels == 1 || length rels == 0 = True
+                              | length rels > 0 && chequeoDeRelacion (head rels) (tail rels) == True = noHayRelacionesRepetidas (tail rels)
+                              | otherwise = False
+--5) Aux
+chequeoDeRelacion :: Relacion -> [Relacion] -> Bool
+chequeoDeRelacion r1 r2 | length r2 == 0 = True
+                        | (fst r1 == fst (head r2) && snd r1 == snd (head r2)) || (fst r1 == snd (head r2) && snd r1 == fst (head r2)) = False 
+                        | otherwise = chequeoDeRelacion (head r2) (tail r2)
 
 --6)
 --Sirve para e)
@@ -198,10 +206,20 @@ hayRepetidos (x:xs) | length (x:xs) == 1 = False
 
 -- PREDICADOS DEPENDIENTES A BASICOS
 
+--a)
+redSocialValida :: [Usuario] -> [Relacion] -> [Publicacion] -> Bool
+redSocialValida us rels pubs| usuariosValidos us == True && relacionesValidas us rels == True && publicacionesValidas us pubs == True = True
+                            | otherwise = False
+
 --b)
 usuariosValidos :: [Usuario] -> Bool
 usuariosValidos (x:xs) | length (x:xs) == 1 && usuarioValido (head (x:xs)) = True
                        | otherwise = usuarioValido x && noHayIdsRepetidos (x:xs) && usuariosValidos xs
+
+--c) 
+relacionesValidas :: [Usuario] -> [Relacion] -> Bool
+relacionesValidas us rels | usuariosDeRelacionValidos us rels == True && relacionesAsimetricas rels == True && noHayRelacionesRepetidas rels == True = True
+                          | otherwise = False
 
 --d)
 publicacionesValidas :: [Usuario] -> [Publicacion] -> Bool
