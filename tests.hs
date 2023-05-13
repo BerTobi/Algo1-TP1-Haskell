@@ -1,7 +1,9 @@
 import Test.HUnit
 import Solucion
 
-predicados = runTestTT basicosIndependientes >> runTestTT dependientesDeBasicos 
+predicados = runTestTT basicosIndependientes >> runTestTT dependientesDeBasicos
+
+ejercicios = runTestTT auxDeEjercicios >> runTestTT testsEjercicios
 
 basicosIndependientes = test [
     " siPertenece " ~: (pertenece siPerteneceElem siPerteneceLista) ~?= True,
@@ -68,6 +70,27 @@ dependientesDeBasicos = test [
 
     " cadenaDeAmigos 3" ~: (cadenaDeAmigos listaVacia redSocialA) ~?= False
  ]
+
+
+auxDeEjercicios = test [
+    " filtroDeRelaciones 1" ~: (filtroDeRelaciones usuario1 relaciones1) ~?= [relacion1],
+
+    " filtroDeRelaciones 1" ~: (filtroDeRelaciones usuario5 relaciones1) ~?= []
+
+ ]
+
+
+
+testsEjercicios = test [
+    " amigosDe 1" ~: (amigosDe redSocialA usuario1) ~?= [usuario2],                  -- usuario1 con un amigo
+    
+    " amigosDe 2" ~: (amigosDe redSocialB usuario1) ~?= [usuario5, usuario2],        -- Dos amigos
+
+    " amigosDe 3" ~: (amigosDe redSocialB usuario3) ~?= []                          -- No existe ninguna relacion del usuario 3 con otra persona en esta red social
+
+ ]
+
+
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
 

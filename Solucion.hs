@@ -41,9 +41,26 @@ likesDePublicacion (_, _, us) = us
 nombresDeUsuarios :: RedSocial -> [String]
 nombresDeUsuarios = undefined
 
--- describir qué hace la función: .....
+
+
+-- describir qué hace la función: Dada una red social y un usuario, devuelve una lista de usuarios los cuales son amigos del usuario enviado como imput.
 amigosDe :: RedSocial -> Usuario -> [Usuario]
-amigosDe = undefined
+amigosDe red usA = construccionListaUsuarios ((filtroDeRelaciones usA) (relaciones red)) usA
+
+filtroDeRelaciones :: Usuario -> [Relacion] -> [Relacion]
+filtroDeRelaciones usA [] = []
+filtroDeRelaciones usA listaDeRel | length listaDeRel == 1 && ((fst (head listaDeRel)) == usA || (snd (head listaDeRel)) == usA) = [(head listaDeRel)]
+                                  | (fst (head listaDeRel) == usA || snd (head listaDeRel) == usA) = [(head listaDeRel)] ++ filtroDeRelaciones usA (tail listaDeRel)
+                                  | otherwise = filtroDeRelaciones usA (tail listaDeRel)
+
+construccionListaUsuarios :: [Relacion] -> Usuario -> [Usuario]
+construccionListaUsuarios [] _ = []
+construccionListaUsuarios (x:xs) usA | snd x == usA && length (x:xs) == 1 = [fst x]
+                                     | snd x == usA = [fst x] ++ construccionListaUsuarios xs usA
+                                     | fst x == usA && length (x:xs) == 1 = [snd x]
+                                     | otherwise = [snd x] ++ construccionListaUsuarios xs usA
+
+
 
 -- describir qué hace la función: .....
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
