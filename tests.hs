@@ -30,7 +30,7 @@ basicosIndependientes = test [
 
     " noHayIdsRepetidos 1" ~: (noHayIdsRepetidos usuarios4) ~?= True,
 
-    " noHayIdsRepetidos 2" ~: (noHayIdsRepetidos usuarios6) ~? = False,
+    " noHayIdsRepetidos 2" ~: (noHayIdsRepetidos usuarios6) ~?= False,
 
     " noHayIdsRepetidos 3" ~: (noHayIdsRepetidos listaVacia) ~?= True,
 

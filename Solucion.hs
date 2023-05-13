@@ -152,6 +152,8 @@ cadenaDeAmigos (x:xs) red | length (x:xs) == 1 = False
 
 --SANDBOX
 
+{-
+
 --Para que sea mas facil probar
 usuario1 = (1, "Juan")
 usuario2 = (5, "Roberto")
@@ -166,9 +168,4 @@ publicacion1 = (usuario1, "Este es mi primer post", [usuario2, usuario4])
 
 redSocialA = ([usuario1, usuario2, usuario3, usuario4], [relacion1, relacion2], [publicacion1])
 
-
---Actualmente no funciona en ninguna función, pero como hay otros de no repetidos quiza ustedes le encuentren alguna utilidad.
-noHayRepetidos :: (Eq t) => [t] -> Bool
-noHayRepetidos (x:xs) | length (x:xs) == 1 = True
-                      | pertenece x xs = False
-                      | otherwise = noHayRepetidos xs
+-}
