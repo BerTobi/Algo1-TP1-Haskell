@@ -7,6 +7,7 @@
 -- Integrante 4: Gonzalo Agustín Heredia, gonzalo.heredia.gh8@gmail.com, 948/23
 
 module Solucion where
+import Data.Time.Format.ISO8601 (yearFormat)
 
 type Usuario = (Integer, String) -- (id, nombre)
 type Relacion = (Usuario, Usuario) -- usuarios que se relacionan
@@ -203,6 +204,14 @@ hayRepetidos :: (Eq t) => [t] -> Bool
 hayRepetidos (x:xs) | length (x:xs) == 1 = False
                     | pertenece x xs = True
                     | otherwise = hayRepetidos xs
+
+--10)
+sonDeLaRed :: RedSocial -> [Usuario] -> Bool
+sonDeLaRed red [] = False
+sonDeLaRed red (x:xs) | length (x:xs) == 1 && pertenece (x) (usuarios red) = True
+                      | length (x:xs) > 1 && pertenece (x) (usuarios red) == True = sonDeLaRed red xs
+                      | otherwise = False
+
 
 -- PREDICADOS DEPENDIENTES A BASICOS
 
