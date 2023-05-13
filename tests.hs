@@ -28,6 +28,14 @@ basicosIndependientes = test [
 
     " usuarioValido 3" ~: (usuarioValido usuarioInvalido2) ~?= False,
 
+    " noHayIdsRepetidos 1" ~: (noHayIdsRepetidos usuarios4) ~?= True,
+
+    " noHayIdsRepetidos 2" ~: (noHayIdsRepetidos usuarios6) ~? = False,
+
+    " noHayIdsRepetidos 3" ~: (noHayIdsRepetidos listaVacia) ~?= True,
+
+    " noHayIdsRepetidos 4" ~: (noHayIdsRepetidos [usuario1]) ~?= True,
+
     " UsuariosDeRelacionValidos 1 " ~: (usuariosDeRelacionValidos usuarios4 relaciones1) ~?= True,
 
     " UsuariosDeRelacionValidos 2 " ~: (usuariosDeRelacionValidos usuarios4 relaciones2) ~?= False,
@@ -98,6 +106,7 @@ usuario5 = (5, "Natalia")
 -- Usuarios Invalidos
 usuarioInvalido1 = (0, "Juan")
 usuarioInvalido2 = (2, "")
+usuarioInvalido3 = (3, "Juan") -- (Utiliza la misma Id, caso de prueba para Ids Repetidos)
 
 -- Listas de usuarios
 
@@ -106,6 +115,7 @@ usuarios2 = [usuario3, usuario2, usuarioInvalido2]
 usuarios3 = [usuario1, usuario5, usuario1]
 usuarios4 = [usuario1, usuario2, usuario3, usuario4]
 usuarios5 = [usuario1, usuario2, usuario3, usuario4, usuario5]
+usuarios6 = [usuario3, usuario2, usuarioInvalido3]
 
 -- Relaciones validas
 
