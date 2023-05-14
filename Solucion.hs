@@ -172,9 +172,9 @@ noHayRelacionesRepetidas rels | length rels == 1 || length rels == 0 = True
                               | otherwise = False
 --5) Aux
 chequeoDeRelacion :: Relacion -> [Relacion] -> Bool
-chequeoDeRelacion r1 r2 | length r2 == 0 = True
-                        | (fst r1 == fst (head r2) && snd r1 == snd (head r2)) || (fst r1 == snd (head r2) && snd r1 == fst (head r2)) = False 
-                        | otherwise = chequeoDeRelacion (head r2) (tail r2)
+chequeoDeRelacion r rels | length rels == 0 = True
+                         | (fst r == fst (head rels) && snd r == snd (head rels))= False 
+                         | otherwise = chequeoDeRelacion r (tail rels)
 
 --6)
 --Sirve para e)
