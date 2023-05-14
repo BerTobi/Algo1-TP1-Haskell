@@ -45,13 +45,21 @@ nombresDeUsuarios = undefined
 
 -- describir qué hace la función: Dada una red social y un usuario, devuelve una lista de usuarios los cuales son amigos del usuario enviado como imput.
 amigosDe :: RedSocial -> Usuario -> [Usuario]
-amigosDe red usA = construccionListaUsuarios ((filtroDeRelaciones usA) (relaciones red)) usA
+amigosDe red usA = eliminarRepetidos (construccionListaUsuarios ((filtroDeRelaciones usA) (relaciones red)) usA)
 
 filtroDeRelaciones :: Usuario -> [Relacion] -> [Relacion]
 filtroDeRelaciones usA [] = []
 filtroDeRelaciones usA listaDeRel | length listaDeRel == 1 && ((fst (head listaDeRel)) == usA || (snd (head listaDeRel)) == usA) = [(head listaDeRel)]
                                   | (fst (head listaDeRel) == usA || snd (head listaDeRel) == usA) = [(head listaDeRel)] ++ filtroDeRelaciones usA (tail listaDeRel)
                                   | otherwise = filtroDeRelaciones usA (tail listaDeRel)
+
+
+eliminarRepetidos :: [Usuario] -> [Usuario]
+eliminarRepetidos [] = []
+eliminarRepetidos (x:xs) | length (x:xs) == 1 = (x:xs)
+                         | pertenece x xs == False = [x] ++ eliminarRepetidos xs
+                         | otherwise = eliminarRepetidos ([x] ++ quitarTodos x xs)
+
 
 construccionListaUsuarios :: [Relacion] -> Usuario -> [Usuario]
 construccionListaUsuarios [] _ = []
