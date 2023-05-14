@@ -32,7 +32,13 @@ basicosIndependientes = test [
 
     " RelacionesAsimetricas 2 " ~: (relacionesAsimetricas relaciones3) ~?= False,
 
-    " RelacionesAsimetricas 3 " ~: (relacionesAsimetricas relaciones4) ~?= False
+    " RelacionesAsimetricas 3 " ~: (relacionesAsimetricas relaciones4) ~?= False,
+    
+    " NoHayRelacionesRepetidas 1 " ~: (noHayRelacionesRepetidas relaciones1) ~?= True,
+
+    " NoHayRelacionesRepetidas 2 "  ~: (noHayRelacionesRepetidas relaciones3) ~?= True,
+   
+    " NoHayRelacionesRepetidas 3 "  ~: (noHayRelacionesRepetidas relacionesInvalidas) ~?= False
  ]
 
 dependientesDeBasicos = test [
@@ -40,7 +46,21 @@ dependientesDeBasicos = test [
 
     " usuariosValidos 2" ~: (usuariosValidos usuarios2) ~?= False,
 
-    " usuariosValidos 3" ~: (usuariosValidos usuarios3) ~?= False
+    " usuariosValidos 3" ~: (usuariosValidos usuarios3) ~?= False,
+
+    " RelacionesValidas 1 " ~: (relacionesValidas usuarios4 relaciones3) ~?= False,
+
+    " RelacionesValidas 2" ~: (relacionesValidas usuarios4 relaciones1) ~?= True,
+
+    " RelacionesValidas 3" ~: (relacionesValidas usuarios1 relaciones1) ~?= False,
+
+    " RedSocialValida 1 " ~: (redSocialValida usuarios4 relaciones1 [publicacion1]) ~?= True,
+
+    " RedSocialValida 2 " ~: (redSocialValida usuarios2 relaciones1 publicaciones1) ~?= False,
+
+    " RedSocialValida 3 " ~: (redSocialValida usuarios1 relacionesInvalidas publicaciones1) ~?= False,
+
+    " RedSocialValida 4 " ~: (redSocialValida usuarios1 relaciones1 publicacionesInvalidas2) ~?= False
  ]
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
@@ -103,3 +123,26 @@ relaciones1 = [relacion1, relacion2]
 relaciones2 = [relacion1, relacionInvalida1, relacion2]
 relaciones3 = [relacion1, relacion2, relacion3, relacion4]
 relaciones4 = [relacion1, relacion3, relacion2]
+
+relacionesInvalidas = [relacion1,relacion2,relacion3,relacion1]
+
+-- Publicaciones Validas
+
+publicacion1 :: (Usuario,String,[Usuario])
+publicacion1 = (usuario1, "Hola", [(usuario2)])
+
+publicacion2 :: (Usuario,String,[Usuario])
+publicacion2 = (usuario2, "Hola", (usuarios1))
+
+publicacionInvalida :: (Usuario,String,[Usuario])
+publicacionInvalida = (usuario1,"Hola",(usuarios2))
+
+
+publicaciones1 :: [(Usuario,String,[Usuario])]
+publicaciones1 = [(publicacion1), (publicacion2)]
+
+publicacionesInvalidas1 :: [(Usuario,String,[Usuario])]
+publicacionesInvalidas1 = [(publicacion1), (publicacionInvalida)]
+
+publicacionesInvalidas2 :: [(Usuario,String,[Usuario])]
+publicacionesInvalidas2 = [(publicacion1), (publicacion1)]
