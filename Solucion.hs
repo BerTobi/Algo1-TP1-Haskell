@@ -41,13 +41,38 @@ likesDePublicacion (_, _, us) = us
 nombresDeUsuarios :: RedSocial -> [String]
 nombresDeUsuarios = undefined
 
--- describir qué hace la función: .....
-amigosDe :: RedSocial -> Usuario -> [Usuario]
-amigosDe = undefined
 
--- describir qué hace la función: .....
+
+-- describir qué hace la función: Dada una red social y un usuario, devuelve una lista de usuarios los cuales son amigos del usuario enviado como imput.
+amigosDe :: RedSocial -> Usuario -> [Usuario]
+amigosDe red usA = eliminarRepetidos (construccionListaUsuarios ((filtroDeRelaciones usA) (relaciones red)) usA)
+
+filtroDeRelaciones :: Usuario -> [Relacion] -> [Relacion]
+filtroDeRelaciones usA [] = []
+filtroDeRelaciones usA listaDeRel | length listaDeRel == 1 && ((fst (head listaDeRel)) == usA || (snd (head listaDeRel)) == usA) = [(head listaDeRel)]
+                                  | (fst (head listaDeRel) == usA || snd (head listaDeRel) == usA) = [(head listaDeRel)] ++ filtroDeRelaciones usA (tail listaDeRel)
+                                  | otherwise = filtroDeRelaciones usA (tail listaDeRel)
+
+
+eliminarRepetidos :: [Usuario] -> [Usuario]
+eliminarRepetidos [] = []
+eliminarRepetidos (x:xs) | length (x:xs) == 1 = (x:xs)
+                         | pertenece x xs == False = [x] ++ eliminarRepetidos xs
+                         | otherwise = eliminarRepetidos ([x] ++ quitarTodos x xs)
+
+
+construccionListaUsuarios :: [Relacion] -> Usuario -> [Usuario]
+construccionListaUsuarios [] _ = []
+construccionListaUsuarios (x:xs) usA | snd x == usA && length (x:xs) == 1 = [fst x]
+                                     | snd x == usA = [fst x] ++ construccionListaUsuarios xs usA
+                                     | fst x == usA && length (x:xs) == 1 = [snd x]
+                                     | otherwise = [snd x] ++ construccionListaUsuarios xs usA
+
+
+
+-- describir qué hace la función: Recibe una red social y un usuario y devuelve la cantidad de amigos que tiene el usuario
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
-cantidadDeAmigos = undefined
+cantidadDeAmigos red usA = length (amigosDe red usA) 
 
 -- describir qué hace la función: .....
 usuarioConMasAmigos :: RedSocial -> Usuario
@@ -244,8 +269,9 @@ usuariosDeLikeDePublicacionSonUsuariosDeRed us pubs | usuariosLikeValidos us (li
 cadenaDeAmigos :: [Usuario] -> RedSocial -> Bool
 cadenaDeAmigos [] red = False
 cadenaDeAmigos (x:xs) red | length (x:xs) == 1 = False
-                          | relacionadosDirecto x (head xs) red || cadenaDeAmigos xs red = True
-                          | otherwise = cadenaDeAmigos xs red
+                          | length (x:xs) == 2 && relacionadosDirecto x (head xs) red = True
+                          | relacionadosDirecto x (head xs) red && cadenaDeAmigos xs red = True
+                          | otherwise = False
 
 -- Funciones Auxiliares
 

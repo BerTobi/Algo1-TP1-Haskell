@@ -1,7 +1,10 @@
 import Test.HUnit
 import Solucion
 
-predicados = runTestTT basicosIndependientes >> runTestTT dependientesDeBasicos 
+predicados = runTestTT basicosIndependientes >> runTestTT dependientesDeBasicos
+
+ejercicios = runTestTT auxDeEjercicios >> runTestTT testsEjercicios
+
 
 basicosIndependientes = test [
     " siPertenece " ~: (pertenece siPerteneceElem siPerteneceLista) ~?= True,
@@ -22,6 +25,20 @@ basicosIndependientes = test [
 
     " TerminaCon 3 " ~: (terminaCon terminaCon3elem terminaCon3lista) ~?= False,
 
+    " usuarioValido 1" ~: (usuarioValido usuario1) ~?= True,
+
+    " usuarioValido 2" ~: (usuarioValido usuarioInvalido1) ~?= False,
+
+    " usuarioValido 3" ~: (usuarioValido usuarioInvalido2) ~?= False,
+
+    " noHayIdsRepetidos 1" ~: (noHayIdsRepetidos usuarios4) ~?= True,
+
+    " noHayIdsRepetidos 2" ~: (noHayIdsRepetidos usuarios6) ~?= False,
+
+    " noHayIdsRepetidos 3" ~: (noHayIdsRepetidos listaVacia) ~?= True,
+
+    " noHayIdsRepetidos 4" ~: (noHayIdsRepetidos [usuario1]) ~?= True,
+
     " UsuariosDeRelacionValidos 1 " ~: (usuariosDeRelacionValidos usuarios4 relaciones1) ~?= True,
 
     " UsuariosDeRelacionValidos 2 " ~: (usuariosDeRelacionValidos usuarios4 relaciones2) ~?= False,
@@ -38,7 +55,13 @@ basicosIndependientes = test [
 
     " NoHayRelacionesRepetidas 2 "  ~: (noHayRelacionesRepetidas relaciones3) ~?= True,
    
-    " NoHayRelacionesRepetidas 3 "  ~: (noHayRelacionesRepetidas relacionesInvalidas) ~?= False
+    " NoHayRelacionesRepetidas 3 "  ~: (noHayRelacionesRepetidas relacionesInvalidas) ~?= False,
+
+    " siRelacionadosDirecto 1" ~: (relacionadosDirecto usuario1 usuario2 redSocialA) ~?= True,
+
+    " noRelacionadosDirecto 2" ~: (relacionadosDirecto usuario1 usuario3 redSocialA) ~?= False,
+
+    " noRelacionadosDirecto 3" ~: (relacionadosDirecto usuario5 usuario1 redSocialA) ~?= False
  ]
 
 dependientesDeBasicos = test [
@@ -60,7 +83,36 @@ dependientesDeBasicos = test [
 
     " RedSocialValida 3 " ~: (redSocialValida usuarios1 relacionesInvalidas publicaciones1) ~?= False,
 
-    " RedSocialValida 4 " ~: (redSocialValida usuarios1 relaciones1 publicacionesInvalidas2) ~?= False
+    " RedSocialValida 4 " ~: (redSocialValida usuarios1 relaciones1 publicacionesInvalidas2) ~?= False,
+
+    " cadenaDeAmigos 1" ~: (cadenaDeAmigos usuarios4 redSocialC) ~?= True,
+
+    " cadenaDeAmigos 2" ~: (cadenaDeAmigos usuarios5 redSocialB) ~?= False,
+
+    " cadenaDeAmigos 3" ~: (cadenaDeAmigos listaVacia redSocialA) ~?= False
+ ]
+
+auxDeEjercicios = test [
+    " filtroDeRelaciones 1" ~: (filtroDeRelaciones usuario1 relaciones1) ~?= [relacion1],
+
+    " filtroDeRelaciones 1" ~: (filtroDeRelaciones usuario5 relaciones1) ~?= []
+
+ ]
+
+
+
+testsEjercicios = test [
+    " amigosDe 1" ~: (amigosDe redSocialA usuario1) ~?= [usuario2],                  -- usuario1 con un amigo
+    
+    " amigosDe 2" ~: (amigosDe redSocialB usuario1) ~?= [usuario5, usuario2],        -- Dos amigos
+
+    " amigosDe 3" ~: (amigosDe redSocialB usuario3) ~?= [],                          -- No existe ninguna relacion del usuario 3 con otra persona en esta red social
+
+    " cantidadDeAmigos 1" ~: (cantidadDeAmigos redSocialA usuario1) ~?= 1,           -- Cuentan la cantidad de usuarios resultado de los casos anteriores.
+
+    " cantidadDeAmigos 2" ~: (cantidadDeAmigos redSocialB usuario1) ~?= 2,
+
+    " cantidadDeAmigos 3" ~: (cantidadDeAmigos redSocialB usuario3) ~?= 0
  ]
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
@@ -100,6 +152,7 @@ usuario5 = (5, "Natalia")
 -- Usuarios Invalidos
 usuarioInvalido1 = (0, "Juan")
 usuarioInvalido2 = (2, "")
+usuarioInvalido3 = (3, "Juan") -- (Utiliza la misma Id, caso de prueba para Ids Repetidos)
 
 -- Listas de usuarios
 
@@ -107,6 +160,8 @@ usuarios1 = [usuario1, usuario2]
 usuarios2 = [usuario3, usuario2, usuarioInvalido2]
 usuarios3 = [usuario1, usuario5, usuario1]
 usuarios4 = [usuario1, usuario2, usuario3, usuario4]
+usuarios5 = [usuario1, usuario2, usuario3, usuario4, usuario5]
+usuarios6 = [usuario3, usuario2, usuarioInvalido3]
 
 -- Relaciones validas
 
@@ -114,6 +169,8 @@ relacion1 = (usuario1, usuario2)
 relacion2 = (usuario4, usuario3)
 relacion3 = (usuario2, usuario1)
 relacion4 = (usuario3, usuario4)
+relacion5 = (usuario1, usuario5)
+relacion6 = (usuario2, usuario3)
 
 -- Relaciones invalidas
 
@@ -123,26 +180,30 @@ relaciones1 = [relacion1, relacion2]
 relaciones2 = [relacion1, relacionInvalida1, relacion2]
 relaciones3 = [relacion1, relacion2, relacion3, relacion4]
 relaciones4 = [relacion1, relacion3, relacion2]
+relaciones5 = [relacion5, relacion3]
+relaciones6 = [relacion1, relacion6, relacion2, relacion5]
 
 relacionesInvalidas = [relacion1,relacion2,relacion3,relacion1]
 
 -- Publicaciones Validas
 
-publicacion1 :: (Usuario,String,[Usuario])
 publicacion1 = (usuario1, "Hola", [(usuario2)])
-
-publicacion2 :: (Usuario,String,[Usuario])
 publicacion2 = (usuario2, "Hola", (usuarios1))
+publicacion3 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
+publicacion4 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
 
-publicacionInvalida :: (Usuario,String,[Usuario])
 publicacionInvalida = (usuario1,"Hola",(usuarios2))
 
-
-publicaciones1 :: [(Usuario,String,[Usuario])]
 publicaciones1 = [(publicacion1), (publicacion2)]
 
-publicacionesInvalidas1 :: [(Usuario,String,[Usuario])]
 publicacionesInvalidas1 = [(publicacion1), (publicacionInvalida)]
-
-publicacionesInvalidas2 :: [(Usuario,String,[Usuario])]
 publicacionesInvalidas2 = [(publicacion1), (publicacion1)]
+
+-- Redes sociales (si quieren otra red no editen ninguna, hagan otra.)
+
+redSocialA = (usuarios4, relaciones1, [publicacion1])
+
+redSocialB = (usuarios5, relaciones5, [publicacion1])
+
+redSocialC = (usuarios5, relaciones6, [publicacion1])
+
