@@ -7,7 +7,6 @@
 -- Integrante 4: Gonzalo Agustín Heredia, gonzalo.heredia.gh8@gmail.com, 948/23
 
 module Solucion where
-import Data.Time.Format.ISO8601 (yearFormat)
 
 type Usuario = (Integer, String) -- (id, nombre)
 type Relacion = (Usuario, Usuario) -- usuarios que se relacionan
