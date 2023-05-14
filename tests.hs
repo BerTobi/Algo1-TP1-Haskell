@@ -5,6 +5,7 @@ predicados = runTestTT basicosIndependientes >> runTestTT dependientesDeBasicos
 
 ejercicios = runTestTT auxDeEjercicios >> runTestTT testsEjercicios
 
+
 basicosIndependientes = test [
     " siPertenece " ~: (pertenece siPerteneceElem siPerteneceLista) ~?= True,
 
@@ -55,6 +56,7 @@ basicosIndependientes = test [
     " noRelacionadosDirecto 2" ~: (relacionadosDirecto usuario1 usuario3 redSocialA) ~?= False,
 
     " noRelacionadosDirecto 3" ~: (relacionadosDirecto usuario5 usuario1 redSocialA) ~?= False
+
  ]
 
 dependientesDeBasicos = test [
@@ -94,8 +96,6 @@ testsEjercicios = test [
 
     " cantidadDeAmigos 3" ~: (cantidadDeAmigos redSocialB usuario3) ~?= 0
  ]
-
-
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
 
@@ -162,7 +162,6 @@ relaciones1 = [relacion1, relacion2]
 relaciones2 = [relacion1, relacionInvalida1, relacion2]
 relaciones3 = [relacion1, relacion2, relacion3, relacion4]
 relaciones4 = [relacion1, relacion3, relacion2]
-
 relaciones5 = [relacion5, relacion3]
 relaciones6 = [relacion1, relacion6, relacion2, relacion5]
 
@@ -177,3 +176,5 @@ redSocialA = (usuarios4, relaciones1, [publicacion1])
 redSocialB = (usuarios5, relaciones5, [publicacion1])
 
 redSocialC = (usuarios5, relaciones6, [publicacion1])
+
+
