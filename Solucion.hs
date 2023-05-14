@@ -41,13 +41,38 @@ likesDePublicacion (_, _, us) = us
 nombresDeUsuarios :: RedSocial -> [String]
 nombresDeUsuarios = undefined
 
--- describir qué hace la función: .....
-amigosDe :: RedSocial -> Usuario -> [Usuario]
-amigosDe = undefined
 
--- describir qué hace la función: .....
+
+-- describir qué hace la función: Dada una red social y un usuario, devuelve una lista de usuarios los cuales son amigos del usuario enviado como imput.
+amigosDe :: RedSocial -> Usuario -> [Usuario]
+amigosDe red usA = eliminarRepetidos (construccionListaUsuarios ((filtroDeRelaciones usA) (relaciones red)) usA)
+
+filtroDeRelaciones :: Usuario -> [Relacion] -> [Relacion]
+filtroDeRelaciones usA [] = []
+filtroDeRelaciones usA listaDeRel | length listaDeRel == 1 && ((fst (head listaDeRel)) == usA || (snd (head listaDeRel)) == usA) = [(head listaDeRel)]
+                                  | (fst (head listaDeRel) == usA || snd (head listaDeRel) == usA) = [(head listaDeRel)] ++ filtroDeRelaciones usA (tail listaDeRel)
+                                  | otherwise = filtroDeRelaciones usA (tail listaDeRel)
+
+
+eliminarRepetidos :: [Usuario] -> [Usuario]
+eliminarRepetidos [] = []
+eliminarRepetidos (x:xs) | length (x:xs) == 1 = (x:xs)
+                         | pertenece x xs == False = [x] ++ eliminarRepetidos xs
+                         | otherwise = eliminarRepetidos ([x] ++ quitarTodos x xs)
+
+
+construccionListaUsuarios :: [Relacion] -> Usuario -> [Usuario]
+construccionListaUsuarios [] _ = []
+construccionListaUsuarios (x:xs) usA | snd x == usA && length (x:xs) == 1 = [fst x]
+                                     | snd x == usA = [fst x] ++ construccionListaUsuarios xs usA
+                                     | fst x == usA && length (x:xs) == 1 = [snd x]
+                                     | otherwise = [snd x] ++ construccionListaUsuarios xs usA
+
+
+
+-- describir qué hace la función: Recibe una red social y un usuario y devuelve la cantidad de amigos que tiene el usuario
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
-cantidadDeAmigos = undefined
+cantidadDeAmigos red usA = length (amigosDe red usA) 
 
 -- describir qué hace la función: .....
 usuarioConMasAmigos :: RedSocial -> Usuario
@@ -101,6 +126,25 @@ quitarTodos :: (Eq t) => t -> [t] -> [t]
 quitarTodos x xs | xs == [] = []
                  | x == head xs = quitarTodos x (tail xs)
                  | otherwise = [head xs] ++ quitarTodos x (tail xs)
+
+--III)
+empiezaCon :: (Eq t) => t -> [t] -> Bool
+empiezaCon x xs | xs == [] = False
+                | x == head xs = True
+                | otherwise = False
+
+--IV)
+terminaCon :: (Eq t) => t -> [t] -> Bool
+terminaCon x xs | xs == [] = False
+                | length xs == 1 && x == head xs = True
+                | length xs == 1 && x /= head xs = False
+                | otherwise = terminaCon x (tail xs)
+
+--V)
+sinRepetidos :: (Eq t) => [t] -> Bool
+sinRepetidos (x:xs) | length (x:xs) == 1 = True
+                    | pertenece x xs = False
+                    | otherwise = sinRepetidos xs
                  
 --1)
 usuarioValido :: Usuario -> Bool
@@ -121,6 +165,41 @@ construccionListaIds :: [Usuario] -> [Integer]
 construccionListaIds [] = []
 construccionListaIds (x:xs) | length (x:xs) == 1 = [fst x]
                             | otherwise = [fst x] ++ construccionListaIds xs
+
+--3)
+usuariosDeRelacionValidos :: [Usuario] -> [Relacion] -> Bool
+usuariosDeRelacionValidos us rels | length rels == 0 = True
+                                  | length rels > 0 && validezDeRelacionCheck us (head rels) == True = usuariosDeRelacionValidos us (tail rels)
+                                  | otherwise = False
+
+--3) Aux
+validezDeRelacionCheck :: [Usuario] -> Relacion -> Bool
+validezDeRelacionCheck us rel | fst rel == snd rel = False
+                              | pertenece (fst rel) us && pertenece (snd rel) us = True
+                              | otherwise = False
+
+--4)
+relacionesAsimetricas :: [Relacion] -> Bool
+relacionesAsimetricas rels | length rels == 0 = True
+                           | relacionSimetrica (head rels) (tail rels) == True = False
+                           | otherwise = relacionesAsimetricas (tail rels)
+                    
+--4) Aux
+relacionSimetrica :: Relacion -> [Relacion] -> Bool
+relacionSimetrica rel rels | pertenece ((snd rel), (fst rel)) rels = True
+                           | otherwise = False
+
+--5)
+noHayRelacionesRepetidas :: [Relacion] -> Bool
+noHayRelacionesRepetidas rels | length rels == 1 || length rels == 0 = True
+                              | length rels > 0 && chequeoDeRelacion (head rels) (tail rels) == True = noHayRelacionesRepetidas (tail rels)
+                              | otherwise = False
+--5) Aux
+chequeoDeRelacion :: Relacion -> [Relacion] -> Bool
+chequeoDeRelacion r rels | length rels == 0 = True
+                         | (fst r == fst (head rels) && snd r == snd (head rels))= False 
+                         | otherwise = chequeoDeRelacion r (tail rels)
+
 --6)
 --Sirve para e)
 usuariosLikeValidos :: [Usuario] -> [Usuario] -> Bool
@@ -150,12 +229,30 @@ hayRepetidos (x:xs) | length (x:xs) == 1 = False
                     | pertenece x xs = True
                     | otherwise = hayRepetidos xs
 
+--10)
+sonDeLaRed :: RedSocial -> [Usuario] -> Bool
+sonDeLaRed red [] = False
+sonDeLaRed red (x:xs) | length (x:xs) == 1 && pertenece (x) (usuarios red) = True
+                      | length (x:xs) > 1 && pertenece (x) (usuarios red) == True = sonDeLaRed red xs
+                      | otherwise = False
+
+
 -- PREDICADOS DEPENDIENTES A BASICOS
+
+--a)
+redSocialValida :: [Usuario] -> [Relacion] -> [Publicacion] -> Bool
+redSocialValida us rels pubs| usuariosValidos us == True && relacionesValidas us rels == True && publicacionesValidas us pubs == True = True
+                            | otherwise = False
 
 --b)
 usuariosValidos :: [Usuario] -> Bool
 usuariosValidos (x:xs) | length (x:xs) == 1 && usuarioValido (head (x:xs)) = True
                        | otherwise = usuarioValido x && noHayIdsRepetidos (x:xs) && usuariosValidos xs
+
+--c) 
+relacionesValidas :: [Usuario] -> [Relacion] -> Bool
+relacionesValidas us rels | usuariosDeRelacionValidos us rels == True && relacionesAsimetricas rels == True && noHayRelacionesRepetidas rels == True = True
+                          | otherwise = False
 
 --d)
 publicacionesValidas :: [Usuario] -> [Publicacion] -> Bool
@@ -172,13 +269,20 @@ usuariosDeLikeDePublicacionSonUsuariosDeRed us pubs | usuariosLikeValidos us (li
 cadenaDeAmigos :: [Usuario] -> RedSocial -> Bool
 cadenaDeAmigos [] red = False
 cadenaDeAmigos (x:xs) red | length (x:xs) == 1 = False
-                          | relacionadosDirecto x (head xs) red || cadenaDeAmigos xs red = True
-                          | otherwise = cadenaDeAmigos xs red
+                          | length (x:xs) == 2 && relacionadosDirecto x (head xs) red = True
+                          | relacionadosDirecto x (head xs) red && cadenaDeAmigos xs red = True
+                          | otherwise = False
 
+-- Funciones Auxiliares
+
+quitar :: (Eq t) => t -> [t] -> [t]
+quitar x xs | xs == [] = []
+            | x == head xs = tail xs
+            | otherwise = [head xs] ++ quitar x (tail xs)
 
 --SANDBOX
 --Para que sea mas facil probar
-
+{-
 --Usuarios
 usuario1 = (1, "Juan")
 usuario2 = (5, "Roberto")
@@ -193,3 +297,4 @@ relacion1 = (usuario1, usuario2)
 relacion2 = (usuario1, usuario1)
 
 redSocialA = ([usuario1, usuario2, usuario3, usuario4], [relacion1, relacion2], [publicacion1])
+-}
