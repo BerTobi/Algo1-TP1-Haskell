@@ -86,8 +86,13 @@ testsEjercicios = test [
     
     " amigosDe 2" ~: (amigosDe redSocialB usuario1) ~?= [usuario5, usuario2],        -- Dos amigos
 
-    " amigosDe 3" ~: (amigosDe redSocialB usuario3) ~?= []                          -- No existe ninguna relacion del usuario 3 con otra persona en esta red social
+    " amigosDe 3" ~: (amigosDe redSocialB usuario3) ~?= [],                          -- No existe ninguna relacion del usuario 3 con otra persona en esta red social
 
+    " cantidadDeAmigos 1" ~: (cantidadDeAmigos redSocialA usuario1) ~?= 1,           -- Cuentan la cantidad de usuarios resultado de los casos anteriores.
+
+    " cantidadDeAmigos 2" ~: (cantidadDeAmigos redSocialB usuario1) ~?= 2,
+
+    " cantidadDeAmigos 3" ~: (cantidadDeAmigos redSocialB usuario3) ~?= 0
  ]
 
 

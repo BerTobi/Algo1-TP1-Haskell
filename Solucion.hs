@@ -62,9 +62,9 @@ construccionListaUsuarios (x:xs) usA | snd x == usA && length (x:xs) == 1 = [fst
 
 
 
--- describir qué hace la función: .....
+-- describir qué hace la función: Recibe una red social y un usuario y devuelve la cantidad de amigos que tiene el usuario
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
-cantidadDeAmigos = undefined
+cantidadDeAmigos red usA = length (amigosDe red usA) 
 
 -- describir qué hace la función: .....
 usuarioConMasAmigos :: RedSocial -> Usuario
