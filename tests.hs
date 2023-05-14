@@ -50,13 +50,18 @@ basicosIndependientes = test [
     " RelacionesAsimetricas 2 " ~: (relacionesAsimetricas relaciones3) ~?= False,
 
     " RelacionesAsimetricas 3 " ~: (relacionesAsimetricas relaciones4) ~?= False,
+    
+    " NoHayRelacionesRepetidas 1 " ~: (noHayRelacionesRepetidas relaciones1) ~?= True,
+
+    " NoHayRelacionesRepetidas 2 "  ~: (noHayRelacionesRepetidas relaciones3) ~?= True,
+   
+    " NoHayRelacionesRepetidas 3 "  ~: (noHayRelacionesRepetidas relacionesInvalidas) ~?= False,
 
     " siRelacionadosDirecto 1" ~: (relacionadosDirecto usuario1 usuario2 redSocialA) ~?= True,
 
     " noRelacionadosDirecto 2" ~: (relacionadosDirecto usuario1 usuario3 redSocialA) ~?= False,
 
     " noRelacionadosDirecto 3" ~: (relacionadosDirecto usuario5 usuario1 redSocialA) ~?= False
-
  ]
 
 dependientesDeBasicos = test [
@@ -66,13 +71,26 @@ dependientesDeBasicos = test [
 
     " usuariosValidos 3" ~: (usuariosValidos usuarios3) ~?= False,
 
+    " RelacionesValidas 1 " ~: (relacionesValidas usuarios4 relaciones3) ~?= False,
+
+    " RelacionesValidas 2" ~: (relacionesValidas usuarios4 relaciones1) ~?= True,
+
+    " RelacionesValidas 3" ~: (relacionesValidas usuarios1 relaciones1) ~?= False,
+
+    " RedSocialValida 1 " ~: (redSocialValida usuarios4 relaciones1 [publicacion1]) ~?= True,
+
+    " RedSocialValida 2 " ~: (redSocialValida usuarios2 relaciones1 publicaciones1) ~?= False,
+
+    " RedSocialValida 3 " ~: (redSocialValida usuarios1 relacionesInvalidas publicaciones1) ~?= False,
+
+    " RedSocialValida 4 " ~: (redSocialValida usuarios1 relaciones1 publicacionesInvalidas2) ~?= False,
+
     " cadenaDeAmigos 1" ~: (cadenaDeAmigos usuarios4 redSocialC) ~?= True,
 
     " cadenaDeAmigos 2" ~: (cadenaDeAmigos usuarios5 redSocialB) ~?= False,
 
     " cadenaDeAmigos 3" ~: (cadenaDeAmigos listaVacia redSocialA) ~?= False
  ]
-
 
 auxDeEjercicios = test [
     " filtroDeRelaciones 1" ~: (filtroDeRelaciones usuario1 relaciones1) ~?= [relacion1],
@@ -165,9 +183,21 @@ relaciones4 = [relacion1, relacion3, relacion2]
 relaciones5 = [relacion5, relacion3]
 relaciones6 = [relacion1, relacion6, relacion2, relacion5]
 
---Publicaciones
-publicacion1 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
-publicacion2 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
+relacionesInvalidas = [relacion1,relacion2,relacion3,relacion1]
+
+-- Publicaciones Validas
+
+publicacion1 = (usuario1, "Hola", [(usuario2)])
+publicacion2 = (usuario2, "Hola", (usuarios1))
+publicacion3 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
+publicacion4 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
+
+publicacionInvalida = (usuario1,"Hola",(usuarios2))
+
+publicaciones1 = [(publicacion1), (publicacion2)]
+
+publicacionesInvalidas1 = [(publicacion1), (publicacionInvalida)]
+publicacionesInvalidas2 = [(publicacion1), (publicacion1)]
 
 -- Redes sociales (si quieren otra red no editen ninguna, hagan otra.)
 
@@ -176,5 +206,4 @@ redSocialA = (usuarios4, relaciones1, [publicacion1])
 redSocialB = (usuarios5, relaciones5, [publicacion1])
 
 redSocialC = (usuarios5, relaciones6, [publicacion1])
-
 
