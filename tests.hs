@@ -71,6 +71,8 @@ dependientesDeBasicos = test [
 
     " usuariosValidos 3" ~: (usuariosValidos usuarios3) ~?= False,
 
+    " usuariosValidos 4" ~: (usuariosValidos usuarios7) ~?= True,
+
     " RelacionesValidas 1 " ~: (relacionesValidas usuarios4 relaciones3) ~?= False,
 
     " RelacionesValidas 2" ~: (relacionesValidas usuarios4 relaciones1) ~?= True,
@@ -102,9 +104,11 @@ auxDeEjercicios = test [
 
 
 testsEjercicios = test [
+    " nombresDeUsuarios" ~: (nombresDeUsuarios redSocialD) ~?= ["Juan", "Pedro"],
+
     " amigosDe 1" ~: (amigosDe redSocialA usuario1) ~?= [usuario2],                  -- usuario1 con un amigo
     
-    " amigosDe 2" ~: (amigosDe redSocialB usuario1) ~?= [usuario5, usuario2],        -- Dos amigos
+    " amigosDe 2" ~: (amigosDe redSocialE usuario1) ~?= [usuario2],                 -- Dos amigos
 
     " amigosDe 3" ~: (amigosDe redSocialB usuario3) ~?= [],                          -- No existe ninguna relacion del usuario 3 con otra persona en esta red social
 
@@ -148,6 +152,7 @@ usuario2 = (2, "Natalia")
 usuario3 = (3, "Pedro")
 usuario4 = (4, "Mariela")
 usuario5 = (5, "Natalia")
+usuario6 = (6, "Pedro")
 
 -- Usuarios Invalidos
 usuarioInvalido1 = (0, "Juan")
@@ -162,6 +167,7 @@ usuarios3 = [usuario1, usuario5, usuario1]
 usuarios4 = [usuario1, usuario2, usuario3, usuario4]
 usuarios5 = [usuario1, usuario2, usuario3, usuario4, usuario5]
 usuarios6 = [usuario3, usuario2, usuarioInvalido3]
+usuarios7 = [usuario1, usuario3, usuario6]
 
 -- Relaciones validas
 
@@ -206,4 +212,8 @@ redSocialA = (usuarios4, relaciones1, [publicacion1])
 redSocialB = (usuarios5, relaciones5, [publicacion1])
 
 redSocialC = (usuarios5, relaciones6, [publicacion1])
+
+redSocialD = (usuarios7, relaciones6, [publicacion1])
+
+redSocialE = (usuarios5, relaciones3, [publicacion1])
 
