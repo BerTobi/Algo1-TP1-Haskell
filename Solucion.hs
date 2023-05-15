@@ -38,29 +38,29 @@ likesDePublicacion (_, _, us) = us
 
 -- Ejercicios
 
+-- describir qué hace la función: Le entregas una red social y te devuelve una lista con todos los nombres de los usuarios
 nombresDeUsuarios :: RedSocial -> [String]
-nombresDeUsuarios = undefined
+nombresDeUsuarios red = eliminarRepetidos (construccionListaNombres (usuarios red))
 
+
+construccionListaNombres :: [Usuario] -> [String]
+construccionListaNombres [] = []
+construccionListaNombres (x:xs) | length (x:xs) == 1 = [snd x]
+                                | otherwise = [snd x] ++ construccionListaNombres xs
 
 
 -- describir qué hace la función: Dada una red social y un usuario, devuelve una lista de usuarios los cuales son amigos del usuario enviado como imput.
 amigosDe :: RedSocial -> Usuario -> [Usuario]
 amigosDe red usA = eliminarRepetidos (construccionListaUsuarios ((filtroDeRelaciones usA) (relaciones red)) usA)
 
+-- aux de Amigos de. Filtra todas las relaciones en la que aparezca el usuario provisto.
 filtroDeRelaciones :: Usuario -> [Relacion] -> [Relacion]
 filtroDeRelaciones usA [] = []
 filtroDeRelaciones usA listaDeRel | length listaDeRel == 1 && ((fst (head listaDeRel)) == usA || (snd (head listaDeRel)) == usA) = [(head listaDeRel)]
                                   | (fst (head listaDeRel) == usA || snd (head listaDeRel) == usA) = [(head listaDeRel)] ++ filtroDeRelaciones usA (tail listaDeRel)
                                   | otherwise = filtroDeRelaciones usA (tail listaDeRel)
 
-
-eliminarRepetidos :: [Usuario] -> [Usuario]
-eliminarRepetidos [] = []
-eliminarRepetidos (x:xs) | length (x:xs) == 1 = (x:xs)
-                         | pertenece x xs == False = [x] ++ eliminarRepetidos xs
-                         | otherwise = eliminarRepetidos ([x] ++ quitarTodos x xs)
-
-
+--aux de Amigos de. Con una lista de todas la relaciones en la que aparezca un usuario, entrega una lista de todas las personas con la cual está relacionada.
 construccionListaUsuarios :: [Relacion] -> Usuario -> [Usuario]
 construccionListaUsuarios [] _ = []
 construccionListaUsuarios (x:xs) usA | snd x == usA && length (x:xs) == 1 = [fst x]
@@ -253,6 +253,13 @@ redSocialValida :: [Usuario] -> [Relacion] -> [Publicacion] -> Bool
 redSocialValida us rels pubs| usuariosValidos us == True && relacionesValidas us rels == True && publicacionesValidas us pubs == True = True
                             | otherwise = False
 
+--redSocialValida :: RedSocial -> Bool
+--redSocialValida red | usuariosValidos us == True && relacionesValidas us rels == True && publicacionesValidas us pubs == True = True
+--                    | otherwise = False
+--                where us = usuarios red
+--                      rels = relaciones red
+--                      pubs = publicaciones red
+
 --b)
 usuariosValidos :: [Usuario] -> Bool
 usuariosValidos (x:xs) | length (x:xs) == 1 && usuarioValido (head (x:xs)) = True
@@ -288,6 +295,12 @@ quitar :: (Eq t) => t -> [t] -> [t]
 quitar x xs | xs == [] = []
             | x == head xs = tail xs
             | otherwise = [head xs] ++ quitar x (tail xs)
+
+eliminarRepetidos :: (Eq t) => [t] -> [t]
+eliminarRepetidos [] = []
+eliminarRepetidos (x:xs) | length (x:xs) == 1 = (x:xs)
+                         | pertenece x xs == False = [x] ++ eliminarRepetidos xs
+                         | otherwise = eliminarRepetidos ([x] ++ quitarTodos x xs)
 
 --SANDBOX
 --Para que sea mas facil probar
