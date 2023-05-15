@@ -116,7 +116,17 @@ testsEjercicios = test [
 
     " cantidadDeAmigos 2" ~: (cantidadDeAmigos redSocialB usuario1) ~?= 2,
 
-    " cantidadDeAmigos 3" ~: (cantidadDeAmigos redSocialB usuario3) ~?= 0
+    " cantidadDeAmigos 3" ~: (cantidadDeAmigos redSocialB usuario3) ~?= 0,
+
+    " usuarioConMasAmigos 1" ~: (usuarioConMasAmigos redSocialA) ~?= usuario1,
+
+    " usuarioConMasAmigos 2" ~: (usuarioConMasAmigos redSocialB) ~?= usuario1,
+
+    " usuarioConMasAmigos 3" ~: (usuarioConMasAmigos redSocialD) ~?= usuario3,
+
+    " estaRobertoCarlos 1" ~: (estaRobertoCarlos redSocialD) ~?= False,
+
+    " estaRobertoCarlos 2" ~: (estaRobertoCarlos redSocialE) ~?= True
  ]
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
@@ -152,7 +162,14 @@ usuario2 = (2, "Natalia")
 usuario3 = (3, "Pedro")
 usuario4 = (4, "Mariela")
 usuario5 = (5, "Natalia")
-usuario6 = (6, "Pedro")
+usuario6 = (6, "Roberto Carlos")
+usuario7 = (7, "Jaimito")
+usuario8 = (8, "Manuel")
+usuario9 = (9, "Tomas")
+usuario10 = (10, "Roman")
+usuario11 = (11, "Napoleon")
+usuario12 = (12, "Ramon")
+usuario13 = (13, "Pedro")
 
 -- Usuarios Invalidos
 usuarioInvalido1 = (0, "Juan")
@@ -167,7 +184,8 @@ usuarios3 = [usuario1, usuario5, usuario1]
 usuarios4 = [usuario1, usuario2, usuario3, usuario4]
 usuarios5 = [usuario1, usuario2, usuario3, usuario4, usuario5]
 usuarios6 = [usuario3, usuario2, usuarioInvalido3]
-usuarios7 = [usuario1, usuario3, usuario6]
+usuarios7 = [usuario1, usuario2, usuario3, usuario4, usuario5, usuario6, usuario7, usuario8, usuario9, usuario10, usuario11, usuario12]
+usuarios8 = [usuario1, usuario3, usuario6]
 
 -- Relaciones validas
 
@@ -177,6 +195,19 @@ relacion3 = (usuario2, usuario1)
 relacion4 = (usuario3, usuario4)
 relacion5 = (usuario1, usuario5)
 relacion6 = (usuario2, usuario3)
+relacion7 = (usuario3, usuario5)
+
+relacion8 = (usuario1, usuario6)
+relacion9 = (usuario2, usuario6)
+relacion10 = (usuario3, usuario6)
+relacion11 = (usuario4, usuario6)
+relacion12 = (usuario5, usuario6)
+relacion13 = (usuario7, usuario6)
+relacion14 = (usuario8, usuario6)
+relacion15 = (usuario9, usuario6)
+relacion16 = (usuario10, usuario6)
+relacion17 = (usuario11, usuario6)
+relacion18 = (usuario12, usuario6)
 
 -- Relaciones invalidas
 
@@ -188,6 +219,8 @@ relaciones3 = [relacion1, relacion2, relacion3, relacion4]
 relaciones4 = [relacion1, relacion3, relacion2]
 relaciones5 = [relacion5, relacion3]
 relaciones6 = [relacion1, relacion6, relacion2, relacion5]
+relaciones7 = [relacion1, relacion4, relacion6, relacion7]
+relaciones8 = [relacion1, relacion4, relacion6, relacion7, relacion8, relacion9, relacion10, relacion11, relacion12, relacion13, relacion14, relacion15, relacion16, relacion17, relacion18]
 
 relacionesInvalidas = [relacion1,relacion2,relacion3,relacion1]
 
@@ -213,7 +246,10 @@ redSocialB = (usuarios5, relaciones5, [publicacion1])
 
 redSocialC = (usuarios5, relaciones6, [publicacion1])
 
-redSocialD = (usuarios7, relaciones6, [publicacion1])
+redSocialD = (usuarios5, relaciones7, publicaciones1)
 
-redSocialE = (usuarios5, relaciones3, [publicacion1])
+redSocialE = (usuarios7, relaciones8, publicaciones1)
 
+redSocialF = (usuarios7, relaciones6, [publicacion1])
+
+redSocialG = (usuarios5, relaciones3, [publicacion1])

@@ -74,13 +74,22 @@ construccionListaUsuarios (x:xs) usA | snd x == usA && length (x:xs) == 1 = [fst
 cantidadDeAmigos :: RedSocial -> Usuario -> Int
 cantidadDeAmigos red usA = length (amigosDe red usA) 
 
--- describir qué hace la función: .....
+-- describir qué hace la función: Recibe una red social y devuelve el usuario con más amigos
 usuarioConMasAmigos :: RedSocial -> Usuario
-usuarioConMasAmigos = undefined
+usuarioConMasAmigos red = usuarioConMasAmigosDeLista (primero red) red
+
+usuarioConMasAmigosDeLista :: [Usuario] -> RedSocial -> Usuario
+usuarioConMasAmigosDeLista (usuario:usuarios) red | length usuarios == 0 = usuario
+                                                  | cantidadDeAmigos red usuario >= cantidadDeAmigos red (usuarioConMasAmigosDeLista usuarios red) = usuario
+                                                  | otherwise = usuarioConMasAmigosDeLista usuarios red
+
+-- Devuelve el primer elemento de una tupla de 3 elementos
+primero (a, _, _) = a
 
 -- describir qué hace la función: .....
 estaRobertoCarlos :: RedSocial -> Bool
-estaRobertoCarlos = undefined
+estaRobertoCarlos red | cantidadDeAmigos red (usuarioConMasAmigos red) > 10 = True
+                      | otherwise = False
 
 -- describir qué hace la función: .....
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
