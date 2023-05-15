@@ -104,11 +104,15 @@ auxDeEjercicios = test [
 
 
 testsEjercicios = test [
-    " nombresDeUsuarios" ~: (nombresDeUsuarios redSocialD) ~?= ["Juan", "Pedro"],
+    " nombresDeUsuarios 1" ~: (nombresDeUsuarios redSocialG) ~?= ["Juan", "Pedro"],
+
+    " nombresDeUsuarios 2" ~: (nombresDeUsuarios redSocialF) ~?= ["Juan", "Natalia"],
+
+    " nombresDeUsuarios 3" ~: (nombresDeUsuarios redSocialH) ~?= ["Pedro", "Natalia", ""],
 
     " amigosDe 1" ~: (amigosDe redSocialA usuario1) ~?= [usuario2],                  -- usuario1 con un amigo
     
-    " amigosDe 2" ~: (amigosDe redSocialE usuario1) ~?= [usuario2],                 -- Dos amigos
+    " amigosDe 2" ~: (amigosDe redSocialH usuario3) ~?= [usuario4],                 -- Dos amigos
 
     " amigosDe 3" ~: (amigosDe redSocialB usuario3) ~?= [],                          -- No existe ninguna relacion del usuario 3 con otra persona en esta red social
 
@@ -185,7 +189,7 @@ usuarios4 = [usuario1, usuario2, usuario3, usuario4]
 usuarios5 = [usuario1, usuario2, usuario3, usuario4, usuario5]
 usuarios6 = [usuario3, usuario2, usuarioInvalido3]
 usuarios7 = [usuario1, usuario2, usuario3, usuario4, usuario5, usuario6, usuario7, usuario8, usuario9, usuario10, usuario11, usuario12]
-usuarios8 = [usuario1, usuario3, usuario6]
+usuarios8 = [usuario1, usuario3, usuario13]
 
 -- Relaciones validas
 
@@ -196,7 +200,6 @@ relacion4 = (usuario3, usuario4)
 relacion5 = (usuario1, usuario5)
 relacion6 = (usuario2, usuario3)
 relacion7 = (usuario3, usuario5)
-
 relacion8 = (usuario1, usuario6)
 relacion9 = (usuario2, usuario6)
 relacion10 = (usuario3, usuario6)
@@ -250,6 +253,8 @@ redSocialD = (usuarios5, relaciones7, publicaciones1)
 
 redSocialE = (usuarios7, relaciones8, publicaciones1)
 
-redSocialF = (usuarios7, relaciones6, [publicacion1])
+redSocialF = (usuarios3, relaciones6, [publicacion1])
 
-redSocialG = (usuarios5, relaciones3, [publicacion1])
+redSocialG = (usuarios8, relaciones3, [publicacion1])
+
+redSocialH = (usuarios2, relaciones3, [publicacion1])
