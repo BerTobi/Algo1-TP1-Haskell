@@ -126,7 +126,13 @@ testsEjercicios = test [
 
     " estaRobertoCarlos 1" ~: (estaRobertoCarlos redSocialD) ~?= False,
 
-    " estaRobertoCarlos 2" ~: (estaRobertoCarlos redSocialE) ~?= True
+    " estaRobertoCarlos 2" ~: (estaRobertoCarlos redSocialE) ~?= True,
+
+    " publicacionesQueLeGustanA 1"  ~: (publicacionesQueLeGustanA redSocialK usuario1) ~?= publicaciones2,
+
+    " publicacionesQueLeGustanA 1"  ~: (publicacionesQueLeGustanA redSocialK usuario2) ~?= publicaciones1,
+
+    " publicacionesQueLeGustanA 1"  ~: (publicacionesQueLeGustanA redSocialL usuario1) ~?= [publicacion2,publicacion4]
  ]
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
@@ -235,6 +241,10 @@ publicacionInvalida = (usuario1,"Hola",(usuarios2))
 
 publicaciones1 = [(publicacion1), (publicacion2)]
 
+publicaciones2 = [(publicacion2)]
+
+publicaciones3 = [publicacion1,publicacion2,publicacion3,publicacion4]
+
 publicacionesInvalidas1 = [(publicacion1), (publicacionInvalida)]
 publicacionesInvalidas2 = [(publicacion1), (publicacion1)]
 
@@ -259,3 +269,7 @@ redSocialH = (usuarios2, relaciones1, publicaciones1)
 redSocialI = (usuarios1, relacionesInvalidas, publicaciones1)
 
 redSocialJ = (usuarios1, relaciones1, publicacionesInvalidas2)
+
+redSocialK = (usuarios1, relaciones1,publicaciones1)
+
+redSocialL = (usuarios1, relaciones1,publicaciones3)
