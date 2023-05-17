@@ -250,11 +250,11 @@ sonDeLaRed red (x:xs) | length (x:xs) == 1 && pertenece (x) (usuarios red) = Tru
 
 --a)
 redSocialValida :: RedSocial -> Bool
-redSocialValida red| usuariosValidos us == True && relacionesValidas us rels == True && publicacionesValidas us pubs == True = True
-                            | otherwise = False
-                        where us = usuarios red
-                              rels = relaciones red
-                              pubs = publicaciones red
+redSocialValida red | usuariosValidos us == True && relacionesValidas us rels == True && publicacionesValidas us pubs == True = True
+                    | otherwise = False
+                where us = usuarios red
+                      rels = relaciones red
+                      pubs = publicaciones red
 
 --redSocialValida :: RedSocial -> Bool
 --redSocialValida red | usuariosValidos us == True && relacionesValidas us rels == True && publicacionesValidas us pubs == True = True
@@ -317,6 +317,7 @@ usuario4 = (6, "Roberto")
 --Publicaciones
 publicacion1 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
 publicacion2 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
+publicacion3 = (usuario3, "Nada", [])
 
 relacion1 = (usuario1, usuario2)
 relacion2 = (usuario1, usuario1)

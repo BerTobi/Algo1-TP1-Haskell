@@ -53,9 +53,15 @@ basicosIndependientes = test [
     
     " NoHayRelacionesRepetidas 1 " ~: (noHayRelacionesRepetidas relaciones1) ~?= True,
 
-    " NoHayRelacionesRepetidas 2 "  ~: (noHayRelacionesRepetidas relaciones3) ~?= True,
+    " NoHayRelacionesRepetidas 2 " ~: (noHayRelacionesRepetidas relaciones3) ~?= True,
    
-    " NoHayRelacionesRepetidas 3 "  ~: (noHayRelacionesRepetidas relacionesInvalidas) ~?= False,
+    " NoHayRelacionesRepetidas 3 " ~: (noHayRelacionesRepetidas relacionesInvalidas) ~?= False,
+
+    " usuariosLikeValidos 1 " ~: (usuariosLikeValidos usuarios7 usuarios1) ~?= True,
+
+    " usuariosLikeValidos 2 " ~: (usuariosLikeValidos usuarios7 usuarios2) ~?= False,
+
+    " usuariosLikeValidos 3 " ~: (usuariosLikeValidos usuarios1 listaVacia) ~?= True,
 
     " siRelacionadosDirecto 1" ~: (relacionadosDirecto usuario1 usuario2 redSocialA) ~?= True,
 
@@ -86,6 +92,14 @@ dependientesDeBasicos = test [
     " RedSocialValida 3 " ~: (redSocialValida redSocialI) ~?= False,
 
     " RedSocialValida 4 " ~: (redSocialValida redSocialJ) ~?= False,
+
+    " usuariosDeLikeDePublicacionSonUsuariosDeRed 1" ~: (usuariosDeLikeDePublicacionSonUsuariosDeRed usuarios7 publicaciones1) ~?= True,
+    
+    " usuariosDeLikeDePublicacionSonUsuariosDeRed 2" ~: (usuariosDeLikeDePublicacionSonUsuariosDeRed usuarios7 publicacionesInvalidas3) ~?= False,
+    
+    " usuariosDeLikeDePublicacionSonUsuariosDeRed 3" ~: (usuariosDeLikeDePublicacionSonUsuariosDeRed usuarios7 listaVacia) ~?= True,
+    
+    " usuariosDeLikeDePublicacionSonUsuariosDeRed 4" ~: (usuariosDeLikeDePublicacionSonUsuariosDeRed usuarios1 publicaciones2) ~?= True,
 
     " cadenaDeAmigos 1" ~: (cadenaDeAmigos usuarios4 redSocialC) ~?= True,
 
@@ -230,13 +244,17 @@ publicacion1 = (usuario1, "Hola", [(usuario2)])
 publicacion2 = (usuario2, "Hola", (usuarios1))
 publicacion3 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
 publicacion4 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
+publicacion5 = (usuario3, "Nada", [])
 
 publicacionInvalida = (usuario1,"Hola",(usuarios2))
+publicacionInvalida2 = (usuario2, "Chau", [usuarioInvalido1, usuario2])
 
 publicaciones1 = [(publicacion1), (publicacion2)]
+publicaciones2 = [publicacion5]
 
 publicacionesInvalidas1 = [(publicacion1), (publicacionInvalida)]
 publicacionesInvalidas2 = [(publicacion1), (publicacion1)]
+publicacionesInvalidas3 = [(publicacion1), (publicacionInvalida2)]
 
 -- Redes sociales (si quieren otra red no editen ninguna, hagan otra.)
 
