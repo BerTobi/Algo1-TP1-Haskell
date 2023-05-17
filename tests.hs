@@ -128,7 +128,15 @@ testsEjercicios = test [
 
     " estaRobertoCarlos 1" ~: (estaRobertoCarlos redSocialD) ~?= False,
 
-    " estaRobertoCarlos 2" ~: (estaRobertoCarlos redSocialE) ~?= True
+    " estaRobertoCarlos 2" ~: (estaRobertoCarlos redSocialE) ~?= True,
+
+    " existeSecuenciaDeAmigos 1" ~: (existeSecuenciaDeAmigos redSocialD usuario1 usuario5) ~?= True,
+
+    " existeSecuenciaDeAmigos 2" ~: (existeSecuenciaDeAmigos redSocialA usuario1 usuario4) ~?= False,
+
+    " existeSecuenciaDeAmigos 3" ~: (existeSecuenciaDeAmigos redSocialA usuario1 usuario2) ~?= True,
+
+    " existeSecuenciaDeAmigos 3" ~: (existeSecuenciaDeAmigos redSocialE usuario12 usuario2) ~?= True
  ]
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
@@ -284,7 +292,6 @@ redSocialL = (usuarios1, relaciones1, publicaciones3)
 -- Falta M
 
 redSocialN = (usuarios1, relaciones1, [publicacion5])
-
 
 --Le pongo 1 para que no entre en conflicto con ninguno, despues cuando mergeemos lo cambiamos a la letra que corresponda.
 redSocial1 = (usuarios9, relaciones1, [publicacion1])
