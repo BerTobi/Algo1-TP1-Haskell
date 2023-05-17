@@ -42,7 +42,7 @@ likesDePublicacion (_, _, us) = us
 nombresDeUsuarios :: RedSocial -> [String]
 nombresDeUsuarios red = eliminarRepetidos (construccionListaNombres (usuarios red))
 
-
+-- aux de nombresDeUsuarios: Construye una lista de nombres de usuarios, contiene repeticiones.
 construccionListaNombres :: [Usuario] -> [String]
 construccionListaNombres [] = []
 construccionListaNombres (x:xs) | length (x:xs) == 1 = [snd x]
@@ -85,6 +85,8 @@ usuarioConMasAmigosDeLista (usuario:usuarios) red | length usuarios == 0 = usuar
 
 -- Devuelve el primer elemento de una tupla de 3 elementos
 primero (a, _, _) = a
+segundo (_, a, _) = a
+tercero (_, _, a) = a
 
 -- describir qué hace la función: .....
 estaRobertoCarlos :: RedSocial -> Bool
@@ -125,9 +127,16 @@ existeSeguidorFiel usl u red | (publicacionesDe red u) == [] = False
                              | (u /= head usl) && (contenido (publicacionesDe red u) (publicacionesQueLeGustanA red (head usl))) = True
                              | otherwise = existeSeguidorFiel (tail usl) u red
 
--- describir qué hace la función: .....
+-- describir qué hace la función: Recibe una red y dos usuario, y devuelve true si existe una cadena de amigos entre ambos usuarios.
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
-existeSecuenciaDeAmigos = undefined
+existeSecuenciaDeAmigos red us1 us2 | pertenece us2 (todosRelacionados red us1 (amigosDe red us1) (segundo red)) = True
+                                    | otherwise = False
+
+todosRelacionados :: RedSocial -> Usuario -> [Usuario] -> [Relacion] -> [Usuario]
+todosRelacionados red us1 relacionados relaciones | length relaciones == 0 = relacionados
+                                                  | length relaciones >= 1 && pertenece (fst (head relaciones)) relacionados == True && pertenece (snd (head relaciones)) relacionados == False = todosRelacionados red us1 (relacionados ++ [(snd (head relaciones))]) relaciones
+                                                  | length relaciones >= 1 && pertenece (fst (head relaciones)) relacionados == False && pertenece (snd (head relaciones)) relacionados == True = todosRelacionados red us1 (relacionados ++ [(fst (head relaciones))]) relaciones
+                                                  | otherwise = todosRelacionados red us1 relacionados (tail relaciones)
 
 --PREDICADOS Y FUNCIONES AUXILIARES
 
@@ -274,13 +283,6 @@ redSocialValida red | usuariosValidos us == True && relacionesValidas us rels ==
                 where us = usuarios red
                       rels = relaciones red
                       pubs = publicaciones red
-
---redSocialValida :: RedSocial -> Bool
---redSocialValida red | usuariosValidos us == True && relacionesValidas us rels == True && publicacionesValidas us pubs == True = True
---                    | otherwise = False
---                where us = usuarios red
---                      rels = relaciones red
---                      pubs = publicaciones red
 
 --b)
 usuariosValidos :: [Usuario] -> Bool
