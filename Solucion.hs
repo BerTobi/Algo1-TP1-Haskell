@@ -88,7 +88,7 @@ primero (a, _, _) = a
 segundo (_, a, _) = a
 tercero (_, _, a) = a
 
--- describir qué hace la función: .....
+-- describir qué hace la función: determina si existe un usuario que tenga más de 10 amigos.
 estaRobertoCarlos :: RedSocial -> Bool
 estaRobertoCarlos red | cantidadDeAmigos red (usuarioConMasAmigos red) > 10 = True
                       | otherwise = False
@@ -103,7 +103,7 @@ publicacionesDelUsuario u [] = []
 publicacionesDelUsuario u pubs | usuarioDePublicacion (head pubs) == u = head pubs : publicacionesDelUsuario u (tail pubs)
                                | otherwise = publicacionesDelUsuario u (tail pubs)
 
--- describir qué hace la función: .....
+-- describir qué hace la función: Dados una red social y un usuario, devuelve las publicaciones que le gustan al usuario.
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
 publicacionesQueLeGustanA red us | pertenece us (usuarios red) = publicacionyusuario us (publicaciones red)
 
@@ -113,12 +113,12 @@ publicacionyusuario us pubs| length pubs == 0 = []
                            | pertenece us (likesDePublicacion (head pubs)) = head (pubs) : publicacionyusuario us (tail pubs)
                            | otherwise = publicacionyusuario us (tail pubs)
 
--- describir qué hace la función: .....
+-- describir qué hace la función: Dada una red social y 2 usuarios de la red, se determina si les gustan las mismas publicaciones.
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones red us1 us2| pertenece us1 (usuarios red) && pertenece us2 (usuarios red) && (publicacionesQueLeGustanA red us1 == publicacionesQueLeGustanA red us2) = True
                                            | otherwise = False
 
--- describir qué hace la función: .....
+-- describir qué hace la función: Determina si existe un usuario que le gustan todas las publicaciones de un usuario dado.
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
 tieneUnSeguidorFiel red u | existeSeguidorFiel (usuarios red) u red = True
                           | otherwise = False
@@ -334,33 +334,3 @@ contenido [] ys = True
 contenido xs [] = False
 contenido xs ys | pertenece (head xs) ys = contenido (tail xs) ys
                 | not(pertenece (head xs) ys) = False
-
---SANDBOX
---Para que sea mas facil probar
-{-
---Usuarios
-usuario1 = (1, "Juan")
-usuario2 = (5, "Roberto")
-usuario3 = (4, "")
-usuario4 = (6, "Roberto")
-
---Publicaciones
-publicacion1 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
-publicacion2 = (usuario2, "Hola mundo", [usuario3, usuario4])
-publicacion3 = (usuario3, "Nada", [])
-publicacion4 = (usuario1, "Segundo post", [usuario3, usuario4])
-publicacion5 = (usuario2, "Me cae mal Roberto", [usuario1])
-
---Lista Publicaciones
-publicaciones1 = [publicacion1, publicacion2, publicacion3, publicacion4, publicacion5]
-publicaciones2 = [publicacion2, publicacion3]
-publicacionesInvalidas1 = [publicacion1, publicacion1, publicacion3, publicacion4]
-
-relacion1 = (usuario1, usuario2)
-relacion2 = (usuario1, usuario1)
-
-redSocialA = ([usuario1, usuario2, usuario3, usuario4], [relacion1, relacion2], publicaciones1)
-redSocialB = ([usuario1, usuario2, usuario3, usuario4], [relacion1, relacion2], publicaciones2)
-redSocialC = ([usuario1], [], publicaciones1)
-redSocialInvalidaA = ([usuario1, usuario2, usuario3, usuario4], [relacion1, relacion2], publicacionesInvalidas1)
--}
