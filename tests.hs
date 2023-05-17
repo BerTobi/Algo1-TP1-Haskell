@@ -123,7 +123,7 @@ dependientesDeBasicos = test [
     
     " usuariosDeLikeDePublicacionSonUsuariosDeRed 3" ~: (usuariosDeLikeDePublicacionSonUsuariosDeRed usuarios7 listaVacia) ~?= True,
     
-    " usuariosDeLikeDePublicacionSonUsuariosDeRed 4" ~: (usuariosDeLikeDePublicacionSonUsuariosDeRed usuarios1 publicaciones2) ~?= True,
+    " usuariosDeLikeDePublicacionSonUsuariosDeRed 4" ~: (usuariosDeLikeDePublicacionSonUsuariosDeRed usuarios1 publicaciones2) ~?= False,
 
     " cadenaDeAmigos 1" ~: (cadenaDeAmigos usuarios4 redSocialC) ~?= True,
 
@@ -171,11 +171,11 @@ testsEjercicios = test [
 
     " estaRobertoCarlos 2" ~: (estaRobertoCarlos redSocialE) ~?= True,
 
-    " publicacionesQueLeGustanA 1"  ~: (publicacionesQueLeGustanA redSocialO usuario1) ~?= publicaciones2,
+    " publicacionesQueLeGustanA 1"  ~: (publicacionesQueLeGustanA redSocialO usuario1) ~?= publicaciones5,
 
-    " publicacionesQueLeGustanA 1"  ~: (publicacionesQueLeGustanA redSocialO usuario2) ~?= publicaciones1,
+    " publicacionesQueLeGustanA 2"  ~: (publicacionesQueLeGustanA redSocialO usuario2) ~?= publicaciones1,
 
-    " publicacionesQueLeGustanA 1"  ~: (publicacionesQueLeGustanA redSocialP usuario1) ~?= [publicacion2,publicacion4],
+    " publicacionesQueLeGustanA 3"  ~: (publicacionesQueLeGustanA redSocialP usuario1) ~?= [publicacion2,publicacion4],
 
     " lesGustanLasMismasPublicaciones 1" ~: (lesGustanLasMismasPublicaciones redSocialP usuario1 usuario2) ~?= False,
 
@@ -330,10 +330,7 @@ publicaciones1 = [(publicacion1), (publicacion2)]
 publicaciones2 = [publicacion3, publicacion5]
 publicaciones3 = [publicacion1,publicacion2,publicacion3,publicacion4]
 publicaciones4 = [publicacion1, publicacion3]
-
-publicaciones2 = [(publicacion2)]
-
-publicaciones3 = [publicacion1,publicacion2,publicacion3,publicacion4]
+publicaciones5 = [(publicacion2)]
 
 publicacionesInvalidas1 = [(publicacion1), (publicacionInvalida)]
 publicacionesInvalidas2 = [(publicacion1), (publicacion1)]
