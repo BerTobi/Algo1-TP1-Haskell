@@ -107,6 +107,16 @@ dependientesDeBasicos = test [
 
     " RedSocialValida 4 " ~: (redSocialValida redSocialJ) ~?= False,
 
+    " publicacionesValidas 1" ~: (publicacionesValidas usuarios7 publicaciones1) ~?= True,
+    
+    " publicacionesValidas 2" ~: (publicacionesValidas usuarios5 publicacionesInvalidas4) ~?= False,
+    
+    " publicacionesValidas 3" ~: (publicacionesValidas usuarios7 publicacionesInvalidas3) ~?= False,
+    
+    " publicacionesValidas 4" ~: (publicacionesValidas usuarios1 publicacionesInvalidas2) ~?= False,
+    
+    " publicacionesValidas 5" ~: (publicacionesValidas usuarios1 listaVacia) ~?= True,
+
     " usuariosDeLikeDePublicacionSonUsuariosDeRed 1" ~: (usuariosDeLikeDePublicacionSonUsuariosDeRed usuarios7 publicaciones1) ~?= True,
     
     " usuariosDeLikeDePublicacionSonUsuariosDeRed 2" ~: (usuariosDeLikeDePublicacionSonUsuariosDeRed usuarios7 publicacionesInvalidas3) ~?= False,
