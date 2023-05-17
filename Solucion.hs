@@ -76,17 +76,12 @@ cantidadDeAmigos red usA = length (amigosDe red usA)
 
 -- describir qué hace la función: Recibe una red social y devuelve el usuario con más amigos
 usuarioConMasAmigos :: RedSocial -> Usuario
-usuarioConMasAmigos red = usuarioConMasAmigosDeLista (primero red) red
+usuarioConMasAmigos red = usuarioConMasAmigosDeLista (usuarios red) red
 
 usuarioConMasAmigosDeLista :: [Usuario] -> RedSocial -> Usuario
 usuarioConMasAmigosDeLista (usuario:usuarios) red | length usuarios == 0 = usuario
                                                   | cantidadDeAmigos red usuario >= cantidadDeAmigos red (usuarioConMasAmigosDeLista usuarios red) = usuario
                                                   | otherwise = usuarioConMasAmigosDeLista usuarios red
-
--- Devuelve el primer elemento de una tupla de 3 elementos
-primero (a, _, _) = a
-segundo (_, a, _) = a
-tercero (_, _, a) = a
 
 -- describir qué hace la función: determina si existe un usuario que tenga más de 10 amigos.
 estaRobertoCarlos :: RedSocial -> Bool
@@ -131,7 +126,7 @@ existeSeguidorFiel usl u red | (publicacionesDe red u) == [] = False
 
 -- describir qué hace la función: Recibe una red y dos usuario, y devuelve true si existe una cadena de amigos entre ambos usuarios.
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
-existeSecuenciaDeAmigos red us1 us2 | pertenece us2 (todosRelacionados red us1 (amigosDe red us1) (segundo red)) = True
+existeSecuenciaDeAmigos red us1 us2 | pertenece us2 (todosRelacionados red us1 (amigosDe red us1) (relaciones red)) = True
                                     | otherwise = False
 
 todosRelacionados :: RedSocial -> Usuario -> [Usuario] -> [Relacion] -> [Usuario]
