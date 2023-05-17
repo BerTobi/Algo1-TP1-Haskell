@@ -143,7 +143,9 @@ auxDeEjercicios = test [
 
 testsEjercicios = test [
 
-    " nombresDeUsuarios 1" ~: (nombresDeUsuarios redSocial1) ~?= ["Juan", "Natalia", "Pedro", "Mariela", "Tomas"],   --Muchos nombres, en la red hay repetidos, pero en la lista de nombres no tiene que registrar a los repetidos
+    " nombresDeUsuarios" ~: (nombresDeUsuarios redSocialD) ~?= ["Juan","Natalia", "Pedro","Mariela"],
+
+    " nombresDeUsuarios 1" ~: (nombresDeUsuarios redSocialR) ~?= ["Juan", "Natalia", "Pedro", "Mariela", "Tomas"],   --Muchos nombres, en la red hay repetidos, pero en la lista de nombres no tiene que registrar a los repetidos
 
     " nombresDeUsuarios 2" ~: (nombresDeUsuarios redSocialA) ~?= ["Juan", "Natalia", "Pedro", "Mariela"], --Sin repeticiones
 
@@ -168,6 +170,16 @@ testsEjercicios = test [
     " estaRobertoCarlos 1" ~: (estaRobertoCarlos redSocialD) ~?= False,
 
     " estaRobertoCarlos 2" ~: (estaRobertoCarlos redSocialE) ~?= True,
+
+    " publicacionesQueLeGustanA 1"  ~: (publicacionesQueLeGustanA redSocialO usuario1) ~?= publicaciones2,
+
+    " publicacionesQueLeGustanA 1"  ~: (publicacionesQueLeGustanA redSocialO usuario2) ~?= publicaciones1,
+
+    " publicacionesQueLeGustanA 1"  ~: (publicacionesQueLeGustanA redSocialP usuario1) ~?= [publicacion2,publicacion4],
+
+    " lesGustanLasMismasPublicaciones 1" ~: (lesGustanLasMismasPublicaciones redSocialP usuario1 usuario2) ~?= False,
+
+    " lesGustanLasMismasPublicaciones 2" ~: (lesGustanLasMismasPublicaciones redSocialQ usuario1 usuario2) ~?= True,
     
     " publicacionesDe 1" ~: (publicacionesDe redSocialE usuario1) ~?= [publicacion1],
     
@@ -190,6 +202,7 @@ testsEjercicios = test [
     " existeSecuenciaDeAmigos 3" ~: (existeSecuenciaDeAmigos redSocialA usuario1 usuario2) ~?= True,
 
     " existeSecuenciaDeAmigos 3" ~: (existeSecuenciaDeAmigos redSocialE usuario12 usuario2) ~?= True
+
  ]
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
@@ -305,7 +318,9 @@ publicacion2 = (usuario2, "Hola", (usuarios1))
 publicacion3 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
 publicacion4 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
 publicacion5 = (usuario1, "Nada", [usuario5])
+publicacion6 = (usuario2, "Hola mundo", [usuario1, usuario2])
 
+-- Publicaciones Invalidas
 
 publicacionInvalida = (usuario1,"Hola",(usuarios2))
 publicacionInvalida2 = (usuario2, "Chau", [usuarioInvalido1, usuario2])
@@ -315,6 +330,10 @@ publicaciones1 = [(publicacion1), (publicacion2)]
 publicaciones2 = [publicacion3, publicacion5]
 publicaciones3 = [publicacion1,publicacion2,publicacion3,publicacion4]
 publicaciones4 = [publicacion1, publicacion3]
+
+publicaciones2 = [(publicacion2)]
+
+publicaciones3 = [publicacion1,publicacion2,publicacion3,publicacion4]
 
 publicacionesInvalidas1 = [(publicacion1), (publicacionInvalida)]
 publicacionesInvalidas2 = [(publicacion1), (publicacion1)]
@@ -351,6 +370,10 @@ redSocialM = (usuarios8, [relacion8], publicaciones1)
 
 redSocialN = (usuarios1, relaciones1, [publicacion5])
 
---Le pongo 1 para que no entre en conflicto con ninguno, despues cuando mergeemos lo cambiamos a la letra que corresponda.
-redSocial1 = (usuarios9, relaciones1, [publicacion1])
+redSocialO = (usuarios1, relaciones1, publicaciones1)
 
+redSocialP = (usuarios1, relaciones1, publicaciones3)
+
+redSocialQ = (usuarios1, relaciones1, [publicacion6])
+
+redSocialR = (usuarios9, relaciones1, [publicacion1])

@@ -107,6 +107,7 @@ publicacionesDelUsuario u pubs | usuarioDePublicacion (head pubs) == u = head pu
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
 publicacionesQueLeGustanA red us | pertenece us (usuarios red) = publicacionyusuario us (publicaciones red)
 
+
 publicacionyusuario :: Usuario -> [Publicacion] -> [Publicacion]
 publicacionyusuario us pubs| length pubs == 0 = []
                            | pertenece us (likesDePublicacion (head pubs)) = head (pubs) : publicacionyusuario us (tail pubs)
@@ -114,7 +115,8 @@ publicacionyusuario us pubs| length pubs == 0 = []
 
 -- describir qué hace la función: .....
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
-lesGustanLasMismasPublicaciones = undefined
+lesGustanLasMismasPublicaciones red us1 us2| pertenece us1 (usuarios red) && pertenece us2 (usuarios red) && (publicacionesQueLeGustanA red us1 == publicacionesQueLeGustanA red us2) = True
+                                           | otherwise = False
 
 -- describir qué hace la función: .....
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
@@ -283,6 +285,7 @@ redSocialValida red | usuariosValidos us == True && relacionesValidas us rels ==
                 where us = usuarios red
                       rels = relaciones red
                       pubs = publicaciones red
+
 
 --b)
 usuariosValidos :: [Usuario] -> Bool
