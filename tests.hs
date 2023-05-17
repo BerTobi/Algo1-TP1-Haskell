@@ -68,6 +68,12 @@ basicosIndependientes = test [
     " noRelacionadosDirecto 2" ~: (relacionadosDirecto usuario1 usuario3 redSocialA) ~?= False,
 
     " noRelacionadosDirecto 3" ~: (relacionadosDirecto usuario5 usuario1 redSocialA) ~?= False,
+    
+    " usuariosDePublicacionSonUsuariosDeRed 1" ~: (usuariosDePublicacionSonUsuariosDeRed usuarios7 publicaciones1) ~?= True,
+    
+    " usuariosDePublicacionSonUsuariosDeRed 2" ~: (usuariosDePublicacionSonUsuariosDeRed usuarios5 publicacionesInvalidas4) ~?= False,
+    
+    " usuariosDePublicacionSonUsuariosDeRed 3" ~: (usuariosDePublicacionSonUsuariosDeRed usuarios3 listaVacia) ~?= True,
 
     " noHayPublicacionesRepetidas 1 " ~: (noHayPublicacionesRepetidas publicaciones1) ~?= True,
     
@@ -256,6 +262,7 @@ publicacion5 = (usuario3, "Nada", [])
 
 publicacionInvalida = (usuario1,"Hola",(usuarios2))
 publicacionInvalida2 = (usuario2, "Chau", [usuarioInvalido1, usuario2])
+publicacionInvalida3 = (usuarioInvalido3, "Hola mundo", [usuario1, usuario10, usuarioInvalido1])
 
 publicaciones1 = [(publicacion1), (publicacion2)]
 publicaciones2 = [publicacion5]
@@ -263,6 +270,7 @@ publicaciones2 = [publicacion5]
 publicacionesInvalidas1 = [(publicacion1), (publicacionInvalida)]
 publicacionesInvalidas2 = [(publicacion1), (publicacion1)]
 publicacionesInvalidas3 = [(publicacion1), (publicacionInvalida2)]
+publicacionesInvalidas4 = [publicacionInvalida3, publicacion3, publicacion4]
 
 -- Redes sociales (si quieren otra red no editen ninguna, hagan otra.)
 
