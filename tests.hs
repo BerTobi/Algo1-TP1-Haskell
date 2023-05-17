@@ -104,11 +104,11 @@ auxDeEjercicios = test [
 
 
 testsEjercicios = test [
-    " nombresDeUsuarios" ~: (nombresDeUsuarios redSocialD) ~?= ["Juan", "Pedro"],
+    " nombresDeUsuarios" ~: (nombresDeUsuarios redSocialD) ~?= ["Juan","Natalia", "Pedro","Mariela"],
 
     " amigosDe 1" ~: (amigosDe redSocialA usuario1) ~?= [usuario2],                  -- usuario1 con un amigo
     
-    " amigosDe 2" ~: (amigosDe redSocialE usuario1) ~?= [usuario2],                 -- Dos amigos
+    " amigosDe 2" ~: (amigosDe redSocialE usuario1) ~?= [usuario2,usuario6],                 -- Dos amigos
 
     " amigosDe 3" ~: (amigosDe redSocialB usuario3) ~?= [],                          -- No existe ninguna relacion del usuario 3 con otra persona en esta red social
 
