@@ -249,9 +249,12 @@ sonDeLaRed red (x:xs) | length (x:xs) == 1 && pertenece (x) (usuarios red) = Tru
 -- PREDICADOS DEPENDIENTES A BASICOS
 
 --a)
-redSocialValida :: [Usuario] -> [Relacion] -> [Publicacion] -> Bool
-redSocialValida us rels pubs| usuariosValidos us == True && relacionesValidas us rels == True && publicacionesValidas us pubs == True = True
+redSocialValida :: RedSocial -> Bool
+redSocialValida red| usuariosValidos us == True && relacionesValidas us rels == True && publicacionesValidas us pubs == True = True
                             | otherwise = False
+                        where us = usuarios red
+                              rels = relaciones red
+                              pubs = publicaciones red
 
 --redSocialValida :: RedSocial -> Bool
 --redSocialValida red | usuariosValidos us == True && relacionesValidas us rels == True && publicacionesValidas us pubs == True = True

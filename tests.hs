@@ -79,13 +79,13 @@ dependientesDeBasicos = test [
 
     " RelacionesValidas 3" ~: (relacionesValidas usuarios1 relaciones1) ~?= False,
 
-    " RedSocialValida 1 " ~: (redSocialValida usuarios4 relaciones1 [publicacion1]) ~?= True,
+    " RedSocialValida 1 " ~: (redSocialValida redSocialA) ~?= True,
 
-    " RedSocialValida 2 " ~: (redSocialValida usuarios2 relaciones1 publicaciones1) ~?= False,
+    " RedSocialValida 2 " ~: (redSocialValida redSocialH) ~?= False,
 
-    " RedSocialValida 3 " ~: (redSocialValida usuarios1 relacionesInvalidas publicaciones1) ~?= False,
+    " RedSocialValida 3 " ~: (redSocialValida redSocialI) ~?= False,
 
-    " RedSocialValida 4 " ~: (redSocialValida usuarios1 relaciones1 publicacionesInvalidas2) ~?= False,
+    " RedSocialValida 4 " ~: (redSocialValida redSocialJ) ~?= False,
 
     " cadenaDeAmigos 1" ~: (cadenaDeAmigos usuarios4 redSocialC) ~?= True,
 
@@ -253,3 +253,9 @@ redSocialE = (usuarios7, relaciones8, publicaciones1)
 redSocialF = (usuarios7, relaciones6, [publicacion1])
 
 redSocialG = (usuarios5, relaciones3, [publicacion1])
+
+redSocialH = (usuarios2, relaciones1, publicaciones1)
+
+redSocialI = (usuarios1, relacionesInvalidas, publicaciones1)
+
+redSocialJ = (usuarios1, relaciones1, publicacionesInvalidas2)
