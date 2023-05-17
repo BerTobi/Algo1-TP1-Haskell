@@ -104,13 +104,10 @@ publicacionyusuario us pubs| length pubs == 0 = []
                            | pertenece us (likesDePublicacion (head pubs)) = head (pubs) : publicacionyusuario us (tail pubs)
                            | otherwise = publicacionyusuario us (tail pubs)
 
--- planteamiento 
--- Para toda las pub que sea tipo Publicacion, si la pub pertece a la red y el usuario y el usuario pertenece a los likes de la publicacion entonces, la publicacion va en el resultado
--- Para toda las pub, si la publicacion pertenece al resultado entonces, el usuario pertenece a los likes de punlicacion y la publicacion pertenece a la red
-
 -- describir qué hace la función: .....
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
-lesGustanLasMismasPublicaciones = undefined 
+lesGustanLasMismasPublicaciones red us1 us2| pertenece us1 (usuarios red) && pertenece us2 (usuarios red) && (publicacionesQueLeGustanA red us1 == publicacionesQueLeGustanA red us2) = True
+                                           | otherwise = False
 
 -- describir qué hace la función: .....
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
