@@ -67,7 +67,15 @@ basicosIndependientes = test [
 
     " noRelacionadosDirecto 2" ~: (relacionadosDirecto usuario1 usuario3 redSocialA) ~?= False,
 
-    " noRelacionadosDirecto 3" ~: (relacionadosDirecto usuario5 usuario1 redSocialA) ~?= False
+    " noRelacionadosDirecto 3" ~: (relacionadosDirecto usuario5 usuario1 redSocialA) ~?= False,
+
+    " noHayPublicacionesRepetidas 1 " ~: (noHayPublicacionesRepetidas publicaciones1) ~?= True,
+    
+    " noHayPublicacionesRepetidas 2 " ~: (noHayPublicacionesRepetidas publicacionesInvalidas2) ~?= False,
+    
+    " noHayPublicacionesRepetidas 3 " ~: (noHayPublicacionesRepetidas listaVacia) ~?= True,
+    
+    " noHayPublicacionesRepetidas 4 " ~: (noHayPublicacionesRepetidas publicaciones2) ~?= True
  ]
 
 dependientesDeBasicos = test [

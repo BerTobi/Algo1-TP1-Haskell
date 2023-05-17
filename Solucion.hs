@@ -234,6 +234,7 @@ noHayPublicacionesRepetidas pubs | hayRepetidos pubs = False
 --9) Aux                                 
 --Sirve para noHayPublicacionesRepetidas
 hayRepetidos :: (Eq t) => [t] -> Bool
+hayRepetidos [] = False
 hayRepetidos (x:xs) | length (x:xs) == 1 = False
                     | pertenece x xs = True
                     | otherwise = hayRepetidos xs
