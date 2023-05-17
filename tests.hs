@@ -41,21 +41,21 @@ basicosIndependientes = test [
 
     " UsuariosDeRelacionValidos 1 " ~: (usuariosDeRelacionValidos usuarios4 relaciones1) ~?= True,
 
-    " UsuariosDeRelacionValidos 2 " ~: (usuariosDeRelacionValidos usuarios4 relaciones2) ~?= False,
+    " UsuariosDeRelacionValidos 2 " ~: (usuariosDeRelacionValidos usuarios4 relacionesInvalidas1) ~?= False,
 
     " UsuariosDeRelacionValidos 3 " ~: (usuariosDeRelacionValidos usuarios1 relaciones1) ~?= False,
 
     " RelacionesAsimetricas 1 " ~: (relacionesAsimetricas relaciones1) ~?= True,
 
-    " RelacionesAsimetricas 2 " ~: (relacionesAsimetricas relaciones3) ~?= False,
+    " RelacionesAsimetricas 2 " ~: (relacionesAsimetricas relacionesInvalidas3) ~?= False,
 
-    " RelacionesAsimetricas 3 " ~: (relacionesAsimetricas relaciones4) ~?= False,
+    " RelacionesAsimetricas 3 " ~: (relacionesAsimetricas relacionesInvalidas4) ~?= False,
     
     " NoHayRelacionesRepetidas 1 " ~: (noHayRelacionesRepetidas relaciones1) ~?= True,
 
-    " NoHayRelacionesRepetidas 2 "  ~: (noHayRelacionesRepetidas relaciones3) ~?= True,
+    " NoHayRelacionesRepetidas 2 "  ~: (noHayRelacionesRepetidas relacionesInvalidas3) ~?= True,
    
-    " NoHayRelacionesRepetidas 3 "  ~: (noHayRelacionesRepetidas relacionesInvalidas) ~?= False,
+    " NoHayRelacionesRepetidas 3 "  ~: (noHayRelacionesRepetidas relacionesInvalidas2) ~?= False,
 
     " siRelacionadosDirecto 1" ~: (relacionadosDirecto usuario1 usuario2 redSocialA) ~?= True,
 
@@ -73,7 +73,7 @@ dependientesDeBasicos = test [
 
     " usuariosValidos 4" ~: (usuariosValidos usuarios7) ~?= True,
 
-    " RelacionesValidas 1 " ~: (relacionesValidas usuarios4 relaciones3) ~?= False,
+    " RelacionesValidas 1 " ~: (relacionesValidas usuarios4 relacionesInvalidas3) ~?= False,
 
     " RelacionesValidas 2" ~: (relacionesValidas usuarios4 relaciones1) ~?= True,
 
@@ -97,24 +97,26 @@ dependientesDeBasicos = test [
 auxDeEjercicios = test [
     " filtroDeRelaciones 1" ~: (filtroDeRelaciones usuario1 relaciones1) ~?= [relacion1],
 
-    " filtroDeRelaciones 1" ~: (filtroDeRelaciones usuario5 relaciones1) ~?= []
+    " filtroDeRelaciones 2" ~: (filtroDeRelaciones usuario5 relaciones1) ~?= []
 
  ]
 
 
 
 testsEjercicios = test [
-    " nombresDeUsuarios" ~: (nombresDeUsuarios redSocialD) ~?= ["Juan", "Pedro"],
+    " nombresDeUsuarios 1" ~: (nombresDeUsuarios redSocial1) ~?= ["Juan", "Natalia", "Pedro", "Mariela", "Tomas"],   --Muchos nombres, en la red hay repetidos, pero en la lista de nombres no tiene que registrar a los repetidos
 
-    " amigosDe 1" ~: (amigosDe redSocialA usuario1) ~?= [usuario2],                  -- usuario1 con un amigo
+    " nombresDeUsuarios 2" ~: (nombresDeUsuarios redSocialA) ~?= ["Juan", "Natalia", "Pedro", "Mariela"], --Sin repeticiones
+
+    " amigosDe 1" ~: (amigosDe redSocialA usuario1) ~?= [usuario2],               -- usuario1 con un amigo
     
-    " amigosDe 2" ~: (amigosDe redSocialE usuario1) ~?= [usuario2],                 -- Dos amigos
+    " amigosDe 2" ~: (amigosDe redSocialE usuario6) ~?= [usuario1, usuario2, usuario3, usuario4, usuario5, usuario7, usuario8, usuario9, usuario10, usuario11, usuario12],     -- Muchos amigos, los de Roberto Carlos
 
-    " amigosDe 3" ~: (amigosDe redSocialB usuario3) ~?= [],                          -- No existe ninguna relacion del usuario 3 con otra persona en esta red social
+    " amigosDe 3" ~: (amigosDe redSocialB usuario3) ~?= [],                       -- No existe ninguna relacion del usuario 3 con otra persona en esta red social
 
-    " cantidadDeAmigos 1" ~: (cantidadDeAmigos redSocialA usuario1) ~?= 1,           -- Cuentan la cantidad de usuarios resultado de los casos anteriores.
+    " cantidadDeAmigos 1" ~: (cantidadDeAmigos redSocialA usuario1) ~?= 1,        -- Cuentan la cantidad de usuarios resultado de los casos anteriores.
 
-    " cantidadDeAmigos 2" ~: (cantidadDeAmigos redSocialB usuario1) ~?= 2,
+    " cantidadDeAmigos 2" ~: (cantidadDeAmigos redSocialE usuario6) ~?= 11,
 
     " cantidadDeAmigos 3" ~: (cantidadDeAmigos redSocialB usuario3) ~?= 0,
 
@@ -177,7 +179,10 @@ usuario9 = (9, "Tomas")
 usuario10 = (10, "Roman")
 usuario11 = (11, "Napoleon")
 usuario12 = (12, "Ramon")
+
 usuario13 = (13, "Pedro")
+usuario14 = (14, "Juan")
+usuario15 = (15, "Natalia")
 
 -- Usuarios Invalidos
 usuarioInvalido1 = (0, "Juan")
@@ -193,7 +198,8 @@ usuarios4 = [usuario1, usuario2, usuario3, usuario4]
 usuarios5 = [usuario1, usuario2, usuario3, usuario4, usuario5]
 usuarios6 = [usuario3, usuario2, usuarioInvalido3]
 usuarios7 = [usuario1, usuario2, usuario3, usuario4, usuario5, usuario6, usuario7, usuario8, usuario9, usuario10, usuario11, usuario12]
-usuarios8 = [usuario1, usuario3, usuario6]
+usuarios8 = [usuario1, usuario3, usuario13]
+usuarios9 = [usuario1, usuario2, usuario3, usuario4, usuario5, usuario9, usuario13, usuario14, usuario15]
 
 -- Relaciones validas
 
@@ -204,7 +210,6 @@ relacion4 = (usuario3, usuario4)
 relacion5 = (usuario1, usuario5)
 relacion6 = (usuario2, usuario3)
 relacion7 = (usuario3, usuario5)
-
 relacion8 = (usuario1, usuario6)
 relacion9 = (usuario2, usuario6)
 relacion10 = (usuario3, usuario6)
@@ -221,16 +226,23 @@ relacion18 = (usuario12, usuario6)
 
 relacionInvalida1 = (usuario1, usuario1)
 
+--Lista de Relaciones Validas
+
 relaciones1 = [relacion1, relacion2]
-relaciones2 = [relacion1, relacionInvalida1, relacion2]
-relaciones3 = [relacion1, relacion2, relacion3, relacion4]
-relaciones4 = [relacion1, relacion3, relacion2]
+relaciones2 = []
+relaciones3 = []
+relaciones4 = []
 relaciones5 = [relacion5, relacion3]
 relaciones6 = [relacion1, relacion6, relacion2, relacion5]
 relaciones7 = [relacion1, relacion4, relacion6, relacion7]
 relaciones8 = [relacion1, relacion4, relacion6, relacion7, relacion8, relacion9, relacion10, relacion11, relacion12, relacion13, relacion14, relacion15, relacion16, relacion17, relacion18]
 
-relacionesInvalidas = [relacion1,relacion2,relacion3,relacion1]
+--Lista de Relaciones Invalidas
+
+relacionesInvalidas1 = [relacion1, relacionInvalida1, relacion2]
+relacionesInvalidas2 = [relacion1,relacion2,relacion3,relacion1]
+relacionesInvalidas3 = [relacion1, relacion2, relacion3, relacion4]
+relacionesInvalidas4 = [relacion1, relacion3, relacion2]
 
 -- Publicaciones Validas
 
@@ -238,10 +250,15 @@ publicacion1 = (usuario1, "Hola", [(usuario2)])
 publicacion2 = (usuario2, "Hola", (usuarios1))
 publicacion3 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
 publicacion4 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
+publicacion5 = (usuario2, "Hola mundo", [usuario1, usuario2])
 
 publicacionInvalida = (usuario1,"Hola",(usuarios2))
 
 publicaciones1 = [(publicacion1), (publicacion2)]
+
+publicaciones2 = [(publicacion2)]
+
+publicaciones3 = [publicacion1,publicacion2,publicacion3,publicacion4]
 
 publicacionesInvalidas1 = [(publicacion1), (publicacionInvalida)]
 publicacionesInvalidas2 = [(publicacion1), (publicacion1)]
@@ -260,10 +277,22 @@ redSocialE = (usuarios7, relaciones8, publicaciones1)
 
 redSocialF = (usuarios7, relaciones6, [publicacion1])
 
-redSocialG = (usuarios5, relaciones3, [publicacion1])
+redSocialG = (usuarios5, relacionesInvalidas3, [publicacion1])
 
 redSocialH = (usuarios2, relaciones1, publicaciones1)
 
-redSocialI = (usuarios1, relacionesInvalidas, publicaciones1)
+redSocialI = (usuarios1, relacionesInvalidas2, publicaciones1)
 
 redSocialJ = (usuarios1, relaciones1, publicacionesInvalidas2)
+
+redSocialK = (usuarios1, relaciones1, publicaciones1)
+
+redSocialL = (usuarios1, relaciones1, publicaciones3)
+
+-- Falta M
+
+redSocialN = (usuarios1, relaciones1, [publicacion5])
+
+--Le pongo 1 para que no entre en conflicto con ninguno, despues cuando mergeemos lo cambiamos a la letra que corresponda.
+redSocial1 = (usuarios9, relaciones1, [publicacion1])
+
