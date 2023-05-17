@@ -245,7 +245,6 @@ usuario9 = (9, "Tomas")
 usuario10 = (10, "Roman")
 usuario11 = (11, "Napoleon")
 usuario12 = (12, "Ramon")
-
 usuario13 = (13, "Pedro")
 usuario14 = (14, "Juan")
 usuario15 = (15, "Natalia")
@@ -296,13 +295,10 @@ relacionInvalida1 = (usuario1, usuario1)
 --Lista de Relaciones Validas
 
 relaciones1 = [relacion1, relacion2]
-relaciones2 = []
-relaciones3 = []
-relaciones4 = []
-relaciones5 = [relacion5, relacion3]
-relaciones6 = [relacion1, relacion6, relacion2, relacion5]
-relaciones7 = [relacion1, relacion4, relacion6, relacion7]
-relaciones8 = [relacion1, relacion4, relacion6, relacion7, relacion8, relacion9, relacion10, relacion11, relacion12, relacion13, relacion14, relacion15, relacion16, relacion17, relacion18]
+relaciones2 = [relacion5, relacion3]
+relaciones3 = [relacion1, relacion6, relacion2, relacion5]
+relaciones4 = [relacion1, relacion4, relacion6, relacion7]
+relaciones5 = [relacion1, relacion4, relacion6, relacion7, relacion8, relacion9, relacion10, relacion11, relacion12, relacion13, relacion14, relacion15, relacion16, relacion17, relacion18]
 
 --Lista de Relaciones Invalidas
 
@@ -326,11 +322,15 @@ publicacionInvalida = (usuario1,"Hola",(usuarios2))
 publicacionInvalida2 = (usuario2, "Chau", [usuarioInvalido1, usuario2])
 publicacionInvalida3 = (usuarioInvalido3, "Hola mundo", [usuario1, usuario10, usuarioInvalido1])
 
+-- Lista de publicaciones validas
+
 publicaciones1 = [(publicacion1), (publicacion2)]
 publicaciones2 = [publicacion3, publicacion5]
 publicaciones3 = [publicacion1,publicacion2,publicacion3,publicacion4]
 publicaciones4 = [publicacion1, publicacion3]
 publicaciones5 = [(publicacion2)]
+
+-- Lista de publicaciones invalidas
 
 publicacionesInvalidas1 = [(publicacion1), (publicacionInvalida)]
 publicacionesInvalidas2 = [(publicacion1), (publicacion1)]
@@ -341,15 +341,15 @@ publicacionesInvalidas4 = [publicacionInvalida3, publicacion3, publicacion4]
 
 redSocialA = (usuarios4, relaciones1, [publicacion1])
 
-redSocialB = (usuarios5, relaciones5, [publicacion1])
+redSocialB = (usuarios5, relaciones2, [publicacion1])
 
-redSocialC = (usuarios5, relaciones6, [publicacion1])
+redSocialC = (usuarios5, relaciones3, [publicacion1])
 
-redSocialD = (usuarios5, relaciones7, publicaciones1)
+redSocialD = (usuarios5, relaciones4, publicaciones1)
 
-redSocialE = (usuarios7, relaciones8, publicaciones1)
+redSocialE = (usuarios7, relaciones5, publicaciones1)
 
-redSocialF = (usuarios7, relaciones6, [publicacion1])
+redSocialF = (usuarios7, relaciones3, [publicacion1])
 
 redSocialG = (usuarios5, relacionesInvalidas3, [publicacion1])
 
@@ -359,9 +359,9 @@ redSocialI = (usuarios1, relacionesInvalidas2, publicaciones1)
 
 redSocialJ = (usuarios1, relaciones1, publicacionesInvalidas2)
 
-redSocialK = (usuarios7, relaciones8, publicaciones4)
+redSocialK = (usuarios7, relaciones5, publicaciones4)
 
-redSocialL = (usuarios5, relaciones5, publicaciones2)
+redSocialL = (usuarios5, relaciones2, publicaciones2)
 
 redSocialM = (usuarios8, [relacion8], publicaciones1)
 
