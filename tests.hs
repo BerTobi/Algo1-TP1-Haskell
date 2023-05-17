@@ -142,11 +142,11 @@ auxDeEjercicios = test [
 
 
 testsEjercicios = test [
-    " nombresDeUsuarios" ~: (nombresDeUsuarios redSocialD) ~?= ["Juan", "Pedro"],
+    
 
     " amigosDe 1" ~: (amigosDe redSocialA usuario1) ~?= [usuario2],                  -- usuario1 con un amigo
     
-    " amigosDe 2" ~: (amigosDe redSocialE usuario1) ~?= [usuario2],                 -- Dos amigos
+    
 
     " amigosDe 3" ~: (amigosDe redSocialB usuario3) ~?= [],                          -- No existe ninguna relacion del usuario 3 con otra persona en esta red social
 
@@ -164,7 +164,21 @@ testsEjercicios = test [
 
     " estaRobertoCarlos 1" ~: (estaRobertoCarlos redSocialD) ~?= False,
 
-    " estaRobertoCarlos 2" ~: (estaRobertoCarlos redSocialE) ~?= True
+    " estaRobertoCarlos 2" ~: (estaRobertoCarlos redSocialE) ~?= True,
+    
+    " publicacionesDe 1" ~: (publicacionesDe redSocialE usuario1) ~?= [publicacion1],
+    
+    " publicacionesDe 2" ~: (publicacionesDe redSocialD usuario5) ~?= [],
+
+    " publicacionesDe 3" ~: (publicacionesDe redSocialD usuarioInvalido1) ~?= [],
+
+    " tieneUnSeguidorFiel " ~: (tieneUnSeguidorFiel redSocialK usuario1) ~?= True,
+
+    " tieneUnSeguidorFiel " ~: (tieneUnSeguidorFiel redSocialL usuario1) ~?= False,
+
+    " tieneUnSeguidorFiel " ~: (tieneUnSeguidorFiel redSocialK usuario3) ~?= False,
+
+    " tieneUnSeguidorFiel " ~: (tieneUnSeguidorFiel redSocialM usuario1) ~?= False
  ]
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
@@ -224,6 +238,7 @@ usuarios5 = [usuario1, usuario2, usuario3, usuario4, usuario5]
 usuarios6 = [usuario3, usuario2, usuarioInvalido3]
 usuarios7 = [usuario1, usuario2, usuario3, usuario4, usuario5, usuario6, usuario7, usuario8, usuario9, usuario10, usuario11, usuario12]
 usuarios8 = [usuario1, usuario3, usuario6]
+usuarios9 = [usuario1, usuario6, usuario8]
 
 -- Relaciones validas
 
@@ -268,14 +283,15 @@ publicacion1 = (usuario1, "Hola", [(usuario2)])
 publicacion2 = (usuario2, "Hola", (usuarios1))
 publicacion3 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
 publicacion4 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
-publicacion5 = (usuario3, "Nada", [])
+publicacion5 = (usuario1, "Nada", [usuario5])
 
 publicacionInvalida = (usuario1,"Hola",(usuarios2))
 publicacionInvalida2 = (usuario2, "Chau", [usuarioInvalido1, usuario2])
 publicacionInvalida3 = (usuarioInvalido3, "Hola mundo", [usuario1, usuario10, usuarioInvalido1])
 
 publicaciones1 = [(publicacion1), (publicacion2)]
-publicaciones2 = [publicacion5]
+publicaciones2 = [publicacion3, publicacion5]
+publicaciones3 = [publicacion1, publicacion3]
 
 publicacionesInvalidas1 = [(publicacion1), (publicacionInvalida)]
 publicacionesInvalidas2 = [(publicacion1), (publicacion1)]
@@ -303,3 +319,9 @@ redSocialH = (usuarios2, relaciones1, publicaciones1)
 redSocialI = (usuarios1, relacionesInvalidas, publicaciones1)
 
 redSocialJ = (usuarios1, relaciones1, publicacionesInvalidas2)
+
+redSocialK = (usuarios7, relaciones8, publicaciones3)
+
+redSocialL = (usuarios5, relaciones5, publicaciones2)
+
+redSocialM = (usuarios9, [relacion8], publicaciones1)

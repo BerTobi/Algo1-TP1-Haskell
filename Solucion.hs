@@ -91,13 +91,24 @@ estaRobertoCarlos :: RedSocial -> Bool
 estaRobertoCarlos red | cantidadDeAmigos red (usuarioConMasAmigos red) > 10 = True
                       | otherwise = False
 
--- describir qué hace la función: .....
+-- describir qué hace la función: devuelve una lista, sin elementos repetidos, de las publicaciones realizadas por el usuario en la red social.
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
-publicacionesDe = undefined
+publicacionesDe red u | not(hayRepetidos (publicaciones red)) && pertenece u (usuarios red) = publicacionesDelUsuario u (publicaciones red)
+                      | otherwise = []
+
+publicacionesDelUsuario :: Usuario -> [Publicacion] -> [Publicacion]
+publicacionesDelUsuario u [] = []
+publicacionesDelUsuario u pubs | usuarioDePublicacion (head pubs) == u = head pubs : publicacionesDelUsuario u (tail pubs)
+                               | otherwise = publicacionesDelUsuario u (tail pubs)
 
 -- describir qué hace la función: .....
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
-publicacionesQueLeGustanA = undefined
+publicacionesQueLeGustanA red us | pertenece us (usuarios red) = publicacionyusuario us (publicaciones red)
+
+publicacionyusuario :: Usuario -> [Publicacion] -> [Publicacion]
+publicacionyusuario us pubs| length pubs == 0 = []
+                           | pertenece us (likesDePublicacion (head pubs)) = head (pubs) : publicacionyusuario us (tail pubs)
+                           | otherwise = publicacionyusuario us (tail pubs)
 
 -- describir qué hace la función: .....
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
@@ -105,7 +116,14 @@ lesGustanLasMismasPublicaciones = undefined
 
 -- describir qué hace la función: .....
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
-tieneUnSeguidorFiel = undefined
+tieneUnSeguidorFiel red u | existeSeguidorFiel (usuarios red) u red = True
+                          | otherwise = False
+
+existeSeguidorFiel :: [Usuario] -> Usuario -> RedSocial -> Bool
+existeSeguidorFiel [] u red = False
+existeSeguidorFiel usl u red | (publicacionesDe red u) == [] = False
+                             | (u /= head usl) && (contenido (publicacionesDe red u) (publicacionesQueLeGustanA red (head usl))) = True
+                             | otherwise = existeSeguidorFiel (tail usl) u red
 
 -- describir qué hace la función: .....
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
@@ -306,6 +324,12 @@ eliminarRepetidos (x:xs) | length (x:xs) == 1 = (x:xs)
                          | pertenece x xs == False = [x] ++ eliminarRepetidos xs
                          | otherwise = eliminarRepetidos ([x] ++ quitarTodos x xs)
 
+contenido :: (Eq t) => [t] -> [t] -> Bool
+contenido [] ys = True
+contenido xs [] = False
+contenido xs ys | pertenece (head xs) ys = contenido (tail xs) ys
+                | not(pertenece (head xs) ys) = False
+
 --SANDBOX
 --Para que sea mas facil probar
 {-
@@ -317,11 +341,21 @@ usuario4 = (6, "Roberto")
 
 --Publicaciones
 publicacion1 = (usuario1, "Primer post", [usuario2, usuario3, usuario4])
-publicacion2 = (usuario2, "Hola mundo", [usuario1, usuario3, usuario4])
+publicacion2 = (usuario2, "Hola mundo", [usuario3, usuario4])
 publicacion3 = (usuario3, "Nada", [])
+publicacion4 = (usuario1, "Segundo post", [usuario3, usuario4])
+publicacion5 = (usuario2, "Me cae mal Roberto", [usuario1])
+
+--Lista Publicaciones
+publicaciones1 = [publicacion1, publicacion2, publicacion3, publicacion4, publicacion5]
+publicaciones2 = [publicacion2, publicacion3]
+publicacionesInvalidas1 = [publicacion1, publicacion1, publicacion3, publicacion4]
 
 relacion1 = (usuario1, usuario2)
 relacion2 = (usuario1, usuario1)
 
-redSocialA = ([usuario1, usuario2, usuario3, usuario4], [relacion1, relacion2], [publicacion1])
+redSocialA = ([usuario1, usuario2, usuario3, usuario4], [relacion1, relacion2], publicaciones1)
+redSocialB = ([usuario1, usuario2, usuario3, usuario4], [relacion1, relacion2], publicaciones2)
+redSocialC = ([usuario1], [], publicaciones1)
+redSocialInvalidaA = ([usuario1, usuario2, usuario3, usuario4], [relacion1, relacion2], publicacionesInvalidas1)
 -}
