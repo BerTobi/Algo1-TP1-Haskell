@@ -171,15 +171,15 @@ testsEjercicios = test [
 
     " estaRobertoCarlos 2" ~: (estaRobertoCarlos redSocialE) ~?= True,
 
-    " publicacionesQueLeGustanA 1"  ~: (publicacionesQueLeGustanA redSocialO usuario1) ~?= publicaciones5,
+    " publicacionesQueLeGustanA le gusta 1 publicacion"  ~: (publicacionesQueLeGustanA redSocialO usuario1) ~?= publicaciones5,
 
-    " publicacionesQueLeGustanA 2"  ~: (publicacionesQueLeGustanA redSocialO usuario2) ~?= publicaciones1,
+    " publicacionesQueLeGustanA no le gusta ninguna publicacion" ~: (publicacionesQueLeGustanA redSocialN usuario1) ~?= [],
 
-    " publicacionesQueLeGustanA 3"  ~: (publicacionesQueLeGustanA redSocialP usuario1) ~?= [publicacion2,publicacion4],
+    " publicacionesQueLeGustanA le gustan varias publicaciones "  ~: (publicacionesQueLeGustanA redSocialP usuario1) ~?= [publicacion2,publicacion4],
 
-    " lesGustanLasMismasPublicaciones 1" ~: (lesGustanLasMismasPublicaciones redSocialP usuario1 usuario2) ~?= False,
+    " lesGustanLasMismasPublicaciones no le gustan las mismas publicaciones" ~: (lesGustanLasMismasPublicaciones redSocialP usuario1 usuario2) ~?= False,
 
-    " lesGustanLasMismasPublicaciones 2" ~: (lesGustanLasMismasPublicaciones redSocialQ usuario1 usuario2) ~?= True,
+    " lesGustanLasMismasPublicaciones les gustan las mismas publicaciones" ~: (lesGustanLasMismasPublicaciones redSocialQ usuario1 usuario2) ~?= True,
     
     " publicacionesDe 1" ~: (publicacionesDe redSocialE usuario1) ~?= [publicacion1],
     
