@@ -1,10 +1,13 @@
 import Test.HUnit
 import Solucion
 
+main = runTestTT todosLosTest
+
 predicados = runTestTT basicosIndependientes >> runTestTT dependientesDeBasicos
 
 ejercicios = runTestTT auxDeEjercicios >> runTestTT testsEjercicios
 
+todosLosTest = test [basicosIndependientes, dependientesDeBasicos, auxDeEjercicios, testsEjercicios]
 
 basicosIndependientes = test [
     " siPertenece " ~: (pertenece siPerteneceElem siPerteneceLista) ~?= True,
@@ -200,7 +203,6 @@ testsEjercicios = test [
     " existeSecuenciaDeAmigos 3" ~: (existeSecuenciaDeAmigos redSocialA usuario1 usuario2) ~?= True,
 
     " existeSecuenciaDeAmigos 3" ~: (existeSecuenciaDeAmigos redSocialE usuario12 usuario2) ~?= True
-
  ]
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
