@@ -142,8 +142,6 @@ auxDeEjercicios = test [
 
  ]
 
-
-
 testsEjercicios = test [
 
     " nombresDeUsuarios (con repeticiones)" ~: (nombresDeUsuarios redSocialR) ~?= ["Juan", "Natalia", "Pedro", "Mariela", "Tomas"],
@@ -162,15 +160,15 @@ testsEjercicios = test [
 
     " cantidadDeAmigos (usuario con 0 amigos)" ~: (cantidadDeAmigos redSocialB usuario3) ~?= 0,
 
-    " usuarioConMasAmigos 1" ~: (usuarioConMasAmigos redSocialA) ~?= usuario1,
+    " usuarioConMasAmigos (Todos tienen un amigo)" ~: (usuarioConMasAmigos redSocialA) ~?= usuario1,
 
-    " usuarioConMasAmigos 2" ~: (usuarioConMasAmigos redSocialB) ~?= usuario1,
+    " usuarioConMasAmigos (Hay uno con mas amigos que todos)" ~: (usuarioConMasAmigos redSocialB) ~?= usuario1,
 
-    " usuarioConMasAmigos 3" ~: (usuarioConMasAmigos redSocialD) ~?= usuario3,
+    " usuarioConMasAmigos (Uno tiene mas amigos que todos, pero mas de uno tiene varios amigos)" ~: (usuarioConMasAmigos redSocialD) ~?= usuario3,
 
-    " estaRobertoCarlos 1" ~: (estaRobertoCarlos redSocialD) ~?= False,
+    " estaRobertoCarlos (Ningun usuario tiene más de 10 amigos)" ~: (estaRobertoCarlos redSocialD) ~?= False,
 
-    " estaRobertoCarlos 2" ~: (estaRobertoCarlos redSocialE) ~?= True,
+    " estaRobertoCarlos (Un usuario tiene más de 10 amigos)" ~: (estaRobertoCarlos redSocialE) ~?= True,
 
     " publicacionesQueLeGustanA (le gusta 1 publicacion)"  ~: (publicacionesQueLeGustanA redSocialO usuario1) ~?= publicaciones5,
 
@@ -196,13 +194,12 @@ testsEjercicios = test [
 
     " tieneUnSeguidorFiel (usuarios de like no validos)" ~: (tieneUnSeguidorFiel redSocialM usuario1) ~?= False,
 
-    " existeSecuenciaDeAmigos 1" ~: (existeSecuenciaDeAmigos redSocialD usuario1 usuario5) ~?= True,
+    " existeSecuenciaDeAmigos (Los usuarios estan relacionados indirectamente)" ~: (existeSecuenciaDeAmigos redSocialD usuario1 usuario5) ~?= True,
 
-    " existeSecuenciaDeAmigos 2" ~: (existeSecuenciaDeAmigos redSocialA usuario1 usuario4) ~?= False,
+    " existeSecuenciaDeAmigos (Los usuarios no tienen amigos en comun)" ~: (existeSecuenciaDeAmigos redSocialA usuario1 usuario4) ~?= False,
 
-    " existeSecuenciaDeAmigos 3" ~: (existeSecuenciaDeAmigos redSocialA usuario1 usuario2) ~?= True,
+    " existeSecuenciaDeAmigos (Los usuarios estan relacionados directamente)" ~: (existeSecuenciaDeAmigos redSocialA usuario1 usuario2) ~?= True,
 
-    " existeSecuenciaDeAmigos 3" ~: (existeSecuenciaDeAmigos redSocialE usuario12 usuario2) ~?= True
  ]
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
