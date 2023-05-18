@@ -182,19 +182,19 @@ testsEjercicios = test [
 
     " lesGustanLasMismasPublicaciones 2" ~: (lesGustanLasMismasPublicaciones redSocialQ usuario1 usuario2) ~?= True,
     
-    " publicacionesDe 1" ~: (publicacionesDe redSocialE usuario1) ~?= [publicacion1],
+    " publicacionesDe (usuario con publicaciones)" ~: (publicacionesDe redSocialE usuario1) ~?= [publicacion1],
     
-    " publicacionesDe 2" ~: (publicacionesDe redSocialD usuario5) ~?= [],
+    " publicacionesDe (usuario sin publicaciones)" ~: (publicacionesDe redSocialD usuario5) ~?= [],
 
-    " publicacionesDe 3" ~: (publicacionesDe redSocialD usuarioInvalido1) ~?= [],
+    " publicacionesDe (usuario no valido)" ~: (publicacionesDe redSocialD usuarioInvalido1) ~?= [],
 
-    " tieneUnSeguidorFiel " ~: (tieneUnSeguidorFiel redSocialK usuario1) ~?= True,
+    " tieneUnSeguidorFiel (existe un seguidor fiel)" ~: (tieneUnSeguidorFiel redSocialK usuario1) ~?= True,
 
-    " tieneUnSeguidorFiel " ~: (tieneUnSeguidorFiel redSocialL usuario1) ~?= False,
+    " tieneUnSeguidorFiel (no existe un seguidor fiel)" ~: (tieneUnSeguidorFiel redSocialL usuario1) ~?= False,
 
-    " tieneUnSeguidorFiel " ~: (tieneUnSeguidorFiel redSocialK usuario3) ~?= False,
+    " tieneUnSeguidorFiel (usuario no tiene publicaciones)" ~: (tieneUnSeguidorFiel redSocialK usuario3) ~?= False,
 
-    " tieneUnSeguidorFiel " ~: (tieneUnSeguidorFiel redSocialM usuario1) ~?= False,
+    " tieneUnSeguidorFiel (usuarios de like no validos)" ~: (tieneUnSeguidorFiel redSocialM usuario1) ~?= False,
 
     " existeSecuenciaDeAmigos 1" ~: (existeSecuenciaDeAmigos redSocialD usuario1 usuario5) ~?= True,
 
