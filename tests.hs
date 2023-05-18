@@ -198,7 +198,7 @@ testsEjercicios = test [
 
     " existeSecuenciaDeAmigos (Los usuarios no tienen amigos en comun)" ~: (existeSecuenciaDeAmigos redSocialA usuario1 usuario4) ~?= False,
 
-    " existeSecuenciaDeAmigos (Los usuarios estan relacionados directamente)" ~: (existeSecuenciaDeAmigos redSocialA usuario1 usuario2) ~?= True,
+    " existeSecuenciaDeAmigos (Los usuarios estan relacionados directamente)" ~: (existeSecuenciaDeAmigos redSocialA usuario1 usuario2) ~?= True
 
  ]
 
