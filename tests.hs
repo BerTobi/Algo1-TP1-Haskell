@@ -1,10 +1,13 @@
 import Test.HUnit
 import Solucion
 
+main = runTestTT todosLosTest
+
 predicados = runTestTT basicosIndependientes >> runTestTT dependientesDeBasicos
 
 ejercicios = runTestTT auxDeEjercicios >> runTestTT testsEjercicios
 
+todosLosTest = test [basicosIndependientes, dependientesDeBasicos, auxDeEjercicios, testsEjercicios]
 
 basicosIndependientes = test [
     " siPertenece " ~: (pertenece siPerteneceElem siPerteneceLista) ~?= True,
@@ -143,23 +146,21 @@ auxDeEjercicios = test [
 
 testsEjercicios = test [
 
-    " nombresDeUsuarios" ~: (nombresDeUsuarios redSocialD) ~?= ["Juan","Natalia", "Pedro","Mariela"],
+    " nombresDeUsuarios (con repeticiones)" ~: (nombresDeUsuarios redSocialR) ~?= ["Juan", "Natalia", "Pedro", "Mariela", "Tomas"],
 
-    " nombresDeUsuarios 1" ~: (nombresDeUsuarios redSocialR) ~?= ["Juan", "Natalia", "Pedro", "Mariela", "Tomas"],   --Muchos nombres, en la red hay repetidos, pero en la lista de nombres no tiene que registrar a los repetidos
+    " nombresDeUsuarios (sin repeticiones)" ~: (nombresDeUsuarios redSocialA) ~?= ["Juan", "Natalia", "Pedro", "Mariela"],
 
-    " nombresDeUsuarios 2" ~: (nombresDeUsuarios redSocialA) ~?= ["Juan", "Natalia", "Pedro", "Mariela"], --Sin repeticiones
-
-    " amigosDe 1" ~: (amigosDe redSocialA usuario1) ~?= [usuario2],               -- usuario1 con un amigo
+    " amigosDe (usuario1 con solo 1 amigo)" ~: (amigosDe redSocialA usuario1) ~?= [usuario2],
     
-    " amigosDe 2" ~: (amigosDe redSocialE usuario6) ~?= [usuario1, usuario2, usuario3, usuario4, usuario5, usuario7, usuario8, usuario9, usuario10, usuario11, usuario12],     -- Muchos amigos, los de Roberto Carlos
+    " amigosDe (todos los amigos de Roberto Carlos)" ~: (amigosDe redSocialE usuario6) ~?= [usuario1, usuario2, usuario3, usuario4, usuario5, usuario7, usuario8, usuario9, usuario10, usuario11, usuario12],
 
-    " amigosDe 3" ~: (amigosDe redSocialB usuario3) ~?= [],                       -- No existe ninguna relacion del usuario 3 con otra persona en esta red social
+    " amigosDe (El usuario3 no tiene amigos en esta redSocial)" ~: (amigosDe redSocialB usuario3) ~?= [],
 
-    " cantidadDeAmigos 1" ~: (cantidadDeAmigos redSocialA usuario1) ~?= 1,        -- Cuentan la cantidad de usuarios resultado de los casos anteriores.
+    " cantidadDeAmigos (usuario con 1 solo amigo)" ~: (cantidadDeAmigos redSocialA usuario1) ~?= 1,   
 
-    " cantidadDeAmigos 2" ~: (cantidadDeAmigos redSocialE usuario6) ~?= 11,
+    " cantidadDeAmigos (la cantidad de amigos que tiene Roberto Carlos)" ~: (cantidadDeAmigos redSocialE usuario6) ~?= 11,
 
-    " cantidadDeAmigos 3" ~: (cantidadDeAmigos redSocialB usuario3) ~?= 0,
+    " cantidadDeAmigos (usuario con 0 amigos)" ~: (cantidadDeAmigos redSocialB usuario3) ~?= 0,
 
     " usuarioConMasAmigos 1" ~: (usuarioConMasAmigos redSocialA) ~?= usuario1,
 
@@ -181,19 +182,19 @@ testsEjercicios = test [
 
     " lesGustanLasMismasPublicaciones les gustan las mismas publicaciones" ~: (lesGustanLasMismasPublicaciones redSocialQ usuario1 usuario2) ~?= True,
     
-    " publicacionesDe 1" ~: (publicacionesDe redSocialE usuario1) ~?= [publicacion1],
+    " publicacionesDe (usuario con publicaciones)" ~: (publicacionesDe redSocialE usuario1) ~?= [publicacion1],
     
-    " publicacionesDe 2" ~: (publicacionesDe redSocialD usuario5) ~?= [],
+    " publicacionesDe (usuario sin publicaciones)" ~: (publicacionesDe redSocialD usuario5) ~?= [],
 
-    " publicacionesDe 3" ~: (publicacionesDe redSocialD usuarioInvalido1) ~?= [],
+    " publicacionesDe (usuario no valido)" ~: (publicacionesDe redSocialD usuarioInvalido1) ~?= [],
 
-    " tieneUnSeguidorFiel " ~: (tieneUnSeguidorFiel redSocialK usuario1) ~?= True,
+    " tieneUnSeguidorFiel (existe un seguidor fiel)" ~: (tieneUnSeguidorFiel redSocialK usuario1) ~?= True,
 
-    " tieneUnSeguidorFiel " ~: (tieneUnSeguidorFiel redSocialL usuario1) ~?= False,
+    " tieneUnSeguidorFiel (no existe un seguidor fiel)" ~: (tieneUnSeguidorFiel redSocialL usuario1) ~?= False,
 
-    " tieneUnSeguidorFiel " ~: (tieneUnSeguidorFiel redSocialK usuario3) ~?= False,
+    " tieneUnSeguidorFiel (usuario no tiene publicaciones)" ~: (tieneUnSeguidorFiel redSocialK usuario3) ~?= False,
 
-    " tieneUnSeguidorFiel " ~: (tieneUnSeguidorFiel redSocialM usuario1) ~?= False,
+    " tieneUnSeguidorFiel (usuarios de like no validos)" ~: (tieneUnSeguidorFiel redSocialM usuario1) ~?= False,
 
     " existeSecuenciaDeAmigos 1" ~: (existeSecuenciaDeAmigos redSocialD usuario1 usuario5) ~?= True,
 
@@ -202,7 +203,6 @@ testsEjercicios = test [
     " existeSecuenciaDeAmigos 3" ~: (existeSecuenciaDeAmigos redSocialA usuario1 usuario2) ~?= True,
 
     " existeSecuenciaDeAmigos 3" ~: (existeSecuenciaDeAmigos redSocialE usuario12 usuario2) ~?= True
-
  ]
 
 expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
